@@ -1,0 +1,964 @@
+<title>Jalan-Jalan · SG trails + makan</title>
+<style>
+  :root{
+    --bg:#F4F6F2; --card:#FFFFFF; --ink:#1A241E; --muted:#5C6A61; --line:#DDE4DC;
+    --canopy:#0E6B45; --canopy-soft:#E3EFE7; --canopy-ink:#0A4F34;
+    --amber:#B86E14; --amber-soft:#F6ECDB;
+    --plum:#7C4FA0; --plum-soft:#EFE7F5;
+    --chip:#EAEFE8; --shadow:0 1px 2px rgba(20,35,26,.08),0 4px 14px rgba(20,35,26,.06);
+    --disp:Futura,"Century Gothic","Avenir Next","Trebuchet MS",ui-sans-serif,sans-serif;
+    --body:Seravek,"Segoe UI",system-ui,-apple-system,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#101613; --card:#18211C; --ink:#E6EDE7; --muted:#93A398; --line:#2A362E;
+      --canopy:#3CB47E; --canopy-soft:#162920; --canopy-ink:#8FD8B4;
+      --amber:#E0A04A; --amber-soft:#2A2416;
+      --plum:#B48BD6; --plum-soft:#271F30;
+      --chip:#222D26; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101613; --card:#18211C; --ink:#E6EDE7; --muted:#93A398; --line:#2A362E;
+    --canopy:#3CB47E; --canopy-soft:#162920; --canopy-ink:#8FD8B4;
+    --amber:#E0A04A; --amber-soft:#2A2416;
+    --plum:#B48BD6; --plum-soft:#271F30;
+    --chip:#222D26; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  }
+  :root[data-theme="light"]{
+    --bg:#F4F6F2; --card:#FFFFFF; --ink:#1A241E; --muted:#5C6A61; --line:#DDE4DC;
+    --canopy:#0E6B45; --canopy-soft:#E3EFE7; --canopy-ink:#0A4F34;
+    --amber:#B86E14; --amber-soft:#F6ECDB;
+    --plum:#7C4FA0; --plum-soft:#EFE7F5;
+    --chip:#EAEFE8; --shadow:0 1px 2px rgba(20,35,26,.08),0 4px 14px rgba(20,35,26,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--canopy)}
+  button{font:inherit;cursor:pointer}
+
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px 80px}
+
+  header.app{padding:28px 0 14px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);letter-spacing:.02em;margin:0;color:var(--canopy)}
+  .tag{color:var(--muted);font-size:.95rem;margin:2px 0 0}
+  .progress{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:6px}
+  .progress b{color:var(--canopy)}
+
+  .search{width:100%;margin:14px 0 0;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+  .search:focus{outline:2px solid var(--canopy);outline-offset:1px}
+
+  nav.tabs{position:sticky;top:0;z-index:5;display:flex;gap:3px;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line)}
+  .tab{flex:1;padding:9px 2px;border:none;border-radius:8px;background:transparent;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:.84rem;letter-spacing:.02em}
+  .tab[aria-selected="true"]{background:var(--canopy);color:#fff}
+  @media (prefers-color-scheme: dark){ .tab[aria-selected="true"]{color:#0E1512} }
+  :root[data-theme="dark"] .tab[aria-selected="true"]{color:#0E1512}
+  :root[data-theme="light"] .tab[aria-selected="true"]{color:#fff}
+  .tab:focus-visible{outline:2px solid var(--canopy);outline-offset:2px}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+  .chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:.85rem}
+  .chip[aria-pressed="true"]{background:var(--canopy);border-color:var(--canopy);color:#fff}
+  @media (prefers-color-scheme: dark){ .chip[aria-pressed="true"]{color:#0E1512} }
+  :root[data-theme="dark"] .chip[aria-pressed="true"]{color:#0E1512}
+  :root[data-theme="light"] .chip[aria-pressed="true"]{color:#fff}
+  .chip:focus-visible{outline:2px solid var(--canopy);outline-offset:2px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:16px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;color:var(--ink)}
+  button.card{transition:transform .12s ease}
+  button.card:hover{transform:translateY(-2px)}
+  button.card:focus-visible{outline:2px solid var(--canopy);outline-offset:2px}
+  .photo{width:calc(100% + 32px);margin:-16px -16px 0;aspect-ratio:16/9;object-fit:cover;border-radius:9px 9px 0 0;display:block}
+  .photo.hero{width:100%;margin:10px 0 0;border-radius:10px;aspect-ratio:16/8}
+  .credit{font-size:.68rem;color:var(--muted);margin:4px 0 0}
+  .credit a{color:var(--muted)}
+  .km{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:700;color:var(--canopy);line-height:1}
+  .km small{font-size:.8rem;font-weight:400;color:var(--muted)}
+  .card h3{margin:0;font-family:var(--disp);font-size:1.05rem;font-weight:700;letter-spacing:.01em;text-wrap:balance}
+  .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:.75rem;color:var(--muted)}
+  .pill{border-radius:4px;padding:1px 7px;background:var(--chip);white-space:nowrap}
+  .pill.walked{background:var(--canopy-soft);color:var(--canopy-ink);font-weight:600}
+  .pill.warn{background:var(--amber-soft);color:var(--amber);font-weight:600}
+  .blurb{font-size:.88rem;color:var(--muted);margin:0}
+
+  .mrt{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+  .stn{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;background:var(--chip);border-radius:999px;padding:2px 9px 2px 4px}
+  .dot{width:14px;height:14px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;color:#fff;font-family:var(--mono)}
+
+  .back{background:none;border:none;color:var(--canopy);font-weight:600;padding:8px 0;margin-top:10px;display:inline-flex;gap:6px;align-items:center}
+  .detail h2{font-family:var(--disp);font-size:clamp(1.4rem,4vw,1.8rem);margin:6px 0 2px;text-wrap:balance}
+  .statline{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--muted);margin:8px 0 14px}
+  .statline b{color:var(--ink);font-size:1.05rem}
+  .section{margin-top:22px}
+  .eyebrow{font-family:var(--disp);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px}
+  .eyebrow.food{color:var(--amber)} .eyebrow.sight{color:var(--plum)} .eyebrow.trail{color:var(--canopy)}
+  ul.stops{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .stop{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+  .stop.f{border-left:3px solid var(--amber)} .stop.s{border-left:3px solid var(--plum)}
+  .stop b{display:block}
+  .stop .sub{font-size:.85rem;color:var(--muted)}
+  .cost{float:right;font-family:var(--mono);font-size:.78rem;color:var(--muted);background:var(--chip);border-radius:4px;padding:1px 7px;margin-left:8px}
+  .cost.free{color:var(--canopy);background:var(--canopy-soft)}
+  .maplink{display:inline-block;font-size:.78rem;margin-top:3px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:1px 9px;background:var(--chip)}
+  .maplink:hover{border-color:var(--canopy)}
+  .mapactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .maplink.big{font-size:.85rem;font-weight:600;padding:6px 13px;color:var(--canopy);cursor:pointer;font-family:inherit}
+  .clean{display:block;font-size:.78rem;color:var(--amber);margin-top:3px}
+  .alert{background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:.88rem;margin:12px 0 0}
+  .tips{background:var(--canopy-soft);border-radius:8px;padding:12px 16px;font-size:.9rem;color:var(--canopy-ink)}
+  .walkbtn{margin-top:20px;border:1px solid var(--canopy);border-radius:8px;background:transparent;color:var(--canopy);padding:9px 18px;font-weight:600}
+  .walkbtn[aria-pressed="true"]{background:var(--canopy);color:#fff}
+  @media (prefers-color-scheme: dark){ .walkbtn[aria-pressed="true"]{color:#0E1512} }
+  :root[data-theme="dark"] .walkbtn[aria-pressed="true"]{color:#0E1512}
+  :root[data-theme="light"] .walkbtn[aria-pressed="true"]{color:#fff}
+
+  .fcard{border-left:3px solid var(--amber)}
+  .pcard{border-left:3px solid var(--plum)}
+  .near{font-size:.78rem;color:var(--canopy);margin:0}
+
+  .links{margin-top:26px;border-top:1px solid var(--line);padding-top:16px}
+  .links ul{margin:8px 0 0;padding-left:18px;font-size:.9rem}
+  .links li{margin-bottom:4px}
+  .asof{font-family:var(--mono);font-size:.75rem;color:var(--muted);background:var(--chip);border-radius:4px;padding:2px 8px;display:inline-block;margin:14px 0 0}
+  table.sched{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
+  .sched th{text-align:left;font-family:var(--disp);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+  .sched td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  .sched td:last-child{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.8rem;white-space:nowrap}
+  .tablewrap{overflow-x:auto}
+
+  .mapbox{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-top:14px;padding:8px}
+  .mapbox svg{display:block;width:100%;height:auto}
+  .routeline{fill:none;stroke:var(--canopy);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+  .routehalo{fill:none;stroke:rgba(255,255,255,.9);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  svg .sat ~ .routeline{stroke:#0A7A4E;opacity:1}
+  .mc{stroke:var(--card);stroke-width:2}
+  .mc.f{fill:var(--amber)} .mc.s{fill:var(--plum)}
+  .mt{fill:#fff;font:700 9px var(--mono);pointer-events:none}
+  .mt2{fill:#1A241E;font:700 10px var(--mono);paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:3px}
+  .stn-mk{fill:#3A4A40;stroke:#fff;stroke-width:1.5}
+  .scale{stroke:#1A241E;stroke-width:2;filter:drop-shadow(0 0 2px rgba(255,255,255,.9))}
+  .mk{cursor:pointer}
+  .maplegend{display:flex;gap:14px;flex-wrap:wrap;font-size:.72rem;color:var(--muted);padding:6px 8px 2px}
+  .maplegend span{display:inline-flex;align-items:center;gap:5px}
+  .lg{width:10px;height:10px;border-radius:999px;display:inline-block}
+  .mapnote{font-size:.68rem;color:var(--muted);margin:4px 0 0;padding:0 8px 4px}
+  .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:999px;color:#fff;font-family:var(--mono);font-size:.68rem;font-weight:700;margin-right:8px}
+  .badge.f{background:var(--amber)} .badge.s{background:var(--plum)}
+  .stop.flash{outline:2px solid var(--canopy)}
+
+  select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+  textarea{min-height:70px;resize:vertical}
+  .plan-item{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+  .plan-item input{margin-top:4px;accent-color:var(--canopy)}
+  .plan-item label{flex:1;cursor:pointer}
+  .copybtn{margin-top:16px;background:var(--canopy);border:none;border-radius:8px;color:#fff;padding:11px 20px;font-weight:700;font-family:var(--disp);letter-spacing:.03em}
+  @media (prefers-color-scheme: dark){ .copybtn{color:#0E1512} }
+  :root[data-theme="dark"] .copybtn{color:#0E1512}
+  :root[data-theme="light"] .copybtn{color:#fff}
+  .copied{margin-left:12px;color:var(--canopy);font-size:.9rem}
+  .empty{color:var(--muted);text-align:center;padding:40px 0}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+
+<div class="wrap">
+  <header class="app">
+    <h1>Jalan-Jalan</h1>
+    <p class="tag">Park connectors, nature trails, makan stops and cheap thrills — Singapore on foot.</p>
+    <p class="progress" id="progress"></p>
+    <input class="search" id="search" type="search" placeholder="Search trails, hawker centres, sights… (e.g. satay, boardwalk, free)" aria-label="Search">
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" aria-selected="true" data-view="trails">Trails</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="makan">Makan</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="see">Go&nbsp;See</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="updates">Updates</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="day">My&nbsp;Day</button>
+  </nav>
+
+  <main id="main"></main>
+</div>
+
+<script>
+"use strict";
+
+const IMGS = {}; const IMG_CREDIT = {}; const FIMGS = {}; const FIMG_CREDIT = {}; const MAPBG = {};
+/*__IMGS__*/
+
+const DATA_ASOF = "25 Jul 2026";
+
+const LINE = {
+  NS:["#D42E12","NS"], EW:["#009645","EW"], NE:["#9900AA","NE"],
+  CC:["#FA9E0D","CC"], DT:["#005EC4","DT"], TE:["#9D5B25","TE"], LRT:["#748477","LR"]
+};
+
+// Coordinates from OneMap (SLA); [lat, lon]
+const GEO = {
+"Seah Im Food Centre":[1.26657,103.81925],"ABC Brickworks Market":[1.28688,103.80813],
+"Pasir Panjang Food Centre":[1.27592,103.79141],"Beauty World Centre Food Centre":[1.34241,103.77654],
+"The Rail Mall":[1.35781,103.76808],"Cheong Chin Nam Road":[1.34379,103.77509],
+"Adam Road Food Centre":[1.32408,103.81418],"Roti Prata House, Upper Thomson":[1.35362,103.83447],
+"Upper Thomson cafés":[1.354,103.8325],"Taman Jurong Market & Food Centre":[1.33472,103.72158],
+"Boon Lay Place Food Village":[1.34576,103.71308],"East Coast Lagoon Food Village":[1.30726,103.9348],
+"Bedok 85 Fengshan":[1.332,103.93877],"Changi Village Hawker Centre":[1.38966,103.98809],
+"Punggol Settlement":[1.42088,103.9122],"Tebing Lane":[1.39267,103.91618],
+"Kopitiam @ Waterway Point":[1.40654,103.90199],"Old Airport Road Food Centre":[1.30825,103.88581],
+"Satay by the Bay":[1.28234,103.86864],"Kim San Leng, Bishan":[1.34923,103.8499],
+"Poison Ivy Bistro, Bollywood Farms":[1.41836,103.71667],"Chong Pang Market & Food Centre":[1.43145,103.82854],
+"Sembawang White Beehoon":[1.44198,103.82389],"Beaulieu House":[1.46338,103.83688],
+"Pasir Ris Central Hawker Centre":[1.37347,103.95157],"Tampines Round Market":[1.34537,103.94463],
+"Little Island Brewing Co":[1.38993,103.98871],"Food Republic, VivoCity":[1.26429,103.8223],
+"Coastes, Siloso Beach":[1.25363,103.81514],"Ubin kampong eateries":[1.4015,103.9636],
+"Henderson Waves":[1.27603,103.8155],"Gillman Barracks":[1.27719,103.80415],
+"HortPark":[1.279,103.80112],"Bukit Timah Railway Station":[1.33466,103.78149],
+"Former Ford Factory":[1.35283,103.76884],"Bukit Timah Summit detour":[1.3546,103.7763],
+"TreeTop Walk":[1.35749,103.80893],"Jelutong Tower":[1.3527,103.8123],
+"Lower Peirce Boardwalk":[1.36902,103.82659],"Chinese Garden":[1.34235,103.7326],
+"Science Centre":[1.33284,103.73582],"Grasslands + otter family":[1.33936,103.7273],
+"Bedok Jetty":[1.30643,103.94178],"Xtreme SkatePark":[1.3037,103.9146],
+"Changi Beach WWII site":[1.38273,104.00198],"Coney Island Park":[1.40939,103.92637],
+"Lorong Halus Wetland":[1.39556,103.92441],"Punggol Waterway Park":[1.411,103.90481],
+"Gardens by the Bay (outdoor)":[1.28459,103.86466],"Marina Barrage":[1.27991,103.87047],
+"Bishan-AMK Park":[1.36517,103.8363],"Sungei Buloh Wetland Reserve":[1.44535,103.73214],
+"Kranji War Memorial":[1.41903,103.75731],"Hay Dairies Goat Farm":[1.43165,103.70995],
+"Sembawang Hot Spring Park":[1.43431,103.82261],"Sembawang Park beach":[1.4628,103.8379],
+"Masjid Petempatan Melayu":[1.4591,103.84175],"Pasir Ris Park mangroves":[1.3677,103.96196],
+"Tampines Eco Green":[1.36378,103.94818],"Pasir Ris beach":[1.3815,103.953],
+"Chek Jawa Wetlands":[1.40829,103.99189],"Bike rental on Ubin":[1.4017,103.9631],
+"Changi Boardwalk":[1.3925,103.9835],"Fort Siloso + Skywalk":[1.25852,103.80863],
+"Berlayer Creek":[1.26895,103.80393],"Sentosa beaches":[1.25474,103.81189],
+"HarbourFront MRT":[1.26531,103.82056],"Pasir Panjang MRT":[1.27621,103.79135],
+"Hillview MRT":[1.36289,103.76778],"King Albert Park MRT":[1.33589,103.78324],
+"Beauty World MRT":[1.3409,103.77575],"Caldecott MRT":[1.33735,103.83954],
+"Marymount MRT":[1.34871,103.83942],"Lakeside MRT":[1.34426,103.72095],
+"Chinese Garden MRT":[1.34235,103.7326],"Siglap MRT":[1.31001,103.93003],
+"Bayshore MRT":[1.31312,103.94231],"Punggol MRT":[1.41493,103.91017],
+"Bishan MRT":[1.35102,103.85006],"Bayfront MRT":[1.28187,103.85908],
+"Kranji MRT":[1.42509,103.76214],"Yishun MRT":[1.42944,103.83501],
+"Sembawang MRT":[1.44905,103.82005],"Pasir Ris MRT":[1.36713,103.96056],
+"Tampines MRT":[1.35619,103.95463],"Labrador Park MRT":[1.27237,103.80342]
+};
+
+// Simplified route lines per trail: GEO names or raw [lat, lon] waypoints
+const ROUTES = {
+ ridges:["HarbourFront MRT","Seah Im Food Centre",[1.2717,103.819],"Henderson Waves",[1.2758,103.809],"HortPark",[1.279,103.79],"Pasir Panjang MRT"],
+ rail:["The Rail Mall","Hillview MRT",[1.352,103.771],"Beauty World MRT","Bukit Timah Railway Station",[1.328,103.787]],
+ macritchie:["Marymount MRT",[1.3438,103.832],[1.342,103.821],"Jelutong Tower","TreeTop Walk",[1.356,103.818],[1.3438,103.832],"Marymount MRT"],
+ jurong:["Lakeside MRT","Grasslands + otter family",[1.335,103.728],"Chinese Garden","Chinese Garden MRT"],
+ eastcoast:["Siglap MRT",[1.305,103.925],"East Coast Lagoon Food Village","Bedok Jetty",[1.3247,103.955],[1.36,103.988],"Changi Beach WWII site","Changi Village Hawker Centre"],
+ punggol:["Punggol MRT","Punggol Waterway Park",[1.413,103.908],"Punggol Settlement","Coney Island Park"],
+ kallang:["Bishan MRT","Bishan-AMK Park",[1.352,103.862],[1.328,103.87],[1.308,103.871],"Gardens by the Bay (outdoor)","Marina Barrage"],
+ buloh:["Kranji MRT","Kranji War Memorial","Sungei Buloh Wetland Reserve","Poison Ivy Bistro, Bollywood Farms"],
+ sembawang:["Yishun MRT","Chong Pang Market & Food Centre","Sembawang Hot Spring Park","Sembawang White Beehoon","Masjid Petempatan Melayu","Sembawang Park beach"],
+ pasirris:["Pasir Ris MRT","Pasir Ris Park mangroves","Pasir Ris beach",[1.37,103.945],"Tampines Eco Green"],
+ ubin:["Changi Village Hawker Centre","Changi Boardwalk","Bike rental on Ubin","Chek Jawa Wetlands"],
+ sentosa:["Labrador Park MRT","Berlayer Creek",[1.2645,103.818],"Food Republic, VivoCity",[1.259,103.819],"Fort Siloso + Skywalk","Sentosa beaches"]
+};
+
+// NEA quarterly cleaning closures (data.gov.sg, pulled DATA_ASOF; upcoming dates only)
+const CLEAN = {
+  "Adam Road Food Centre":"7 Sep · 7–8 Dec",
+  "Bedok 85 Fengshan":"28 Sep–2 Oct · 28–29 Dec",
+  "Boon Lay Place Food Village":"21–22 Sep · 30 Nov–3 Dec",
+  "Changi Village Hawker Centre":"Q4 TBC · repairs & redecoration from 1 Oct 2026",
+  "East Coast Lagoon Food Village":"12–14 Oct",
+  "ABC Brickworks Market":"28–29 Sep · 14–15 Dec",
+  "Old Airport Road Food Centre":"28 Sep–1 Oct · 7–10 Dec",
+  "Pasir Panjang Food Centre":"24–25 Aug · 23 Nov",
+  "Pasir Ris Central Hawker Centre":"17–18 Aug · 16–18 Nov",
+  "Taman Jurong Market & Food Centre":"31 Aug–2 Sep · 30 Nov–1 Dec",
+  "Tampines Round Market":"28–30 Sep · 14–16 Dec",
+  "Chong Pang Market & Food Centre":"14–17 Sep · 16–17 Nov"
+};
+
+const TRAIL_ALERTS = {
+  rail:"Featured Central stretch is open. Rail Corridor (South), Henderson Rd → Spooner Rd, is closed for improvement works until ~Jul 2027.",
+  kallang:"A section of Kallang Park Connector is closed for construction — alternative path signposted. Check NParks noticeboard."
+};
+
+const NEW_PARKS = [
+  ["Nature Immersion Trail, Botanic Gardens","Jun 2026","Free","Asia's first certified nature-immersion trail at Saraca Stream — slow, self-guided, deliberately quiet."],
+  ["Bulim Park","Jan 2026","Free","Jurong West's new 14-football-field park: 3-storey sheltered playground, nets, Sky Corridor."],
+  ["King's Road Park","Dec 2025","Free","Farrer Road pocket park with a 400 sqm dog run and nature play area."],
+  ["Compassvale Walk Park","Jun 2025","Free","Sengkang therapeutic garden — foot reflexology path, butterfly planting."],
+  ["Punggol Heritage Trail","First 400 m open","Free","Recreated old bus stops + kampong-games playground; full trail early 2027."]
+];
+const COMING_PARKS = [
+  ["Mandai Mangrove & Mudflat Nature Park","2028","Coastal boardwalks + shorebird viewpoints beside Sungei Buloh."],
+  ["Bukit Batok Hillside Nature Park","from 2028","9.2 ha of trails, streams and native habitat."],
+  ["Ang Mo Kio Garden West","2029","Garden loop, lily pond, new playgardens."],
+  ["Teachers' Estate + Farrer Park","by 2030","Forested hillock park (Upper Thomson) and a city-fringe fitness loop."]
+];
+
+const UPDATE_LINKS = [
+  ["NParks Noticeboard","https://www.nparks.gov.sg/noticeboard","live park & PCN closure notices"],
+  ["Rail Corridor closure notices","https://railcorridor.nparks.gov.sg/closure-notice/","section-by-section trail status"],
+  ["NEA hawker cleaning dates (data.gov.sg)","https://data.gov.sg/datasets?query=hawker+centres+closure","quarterly cleaning + long closures, all 123 centres"],
+  ["NParks news","https://www.nparks.gov.sg/news","new park openings and announcements"]
+];
+
+const TRAILS = [
+{ id:"ridges", name:"Southern Ridges", region:"South", km:10, hrs:"3–4 h", effort:2, shade:"Patchy shade",
+  mrt:[["HarbourFront",["NE","CC"]],["Pasir Panjang",["CC"]]],
+  blurb:"The classic: Mount Faber to Kent Ridge over Henderson Waves and the elevated Forest Walk, canopy level the whole way.",
+  highlights:["Henderson Waves at dusk","Forest Walk steel canopy path","City + port views from Faber Point"],
+  food:[
+    ["Seah Im Food Centre","hawker","$","Chicken rice and lor mee right opposite HarbourFront — fuel up before the climb."],
+    ["ABC Brickworks Market","hawker","$","Detour off Alexandra: Fatty Cheong char siew, Ah Balling glutinous rice balls."],
+    ["Pasir Panjang Food Centre","hawker","$","Old-school zi char and Hokkien mee near the Kent Ridge end."]
+  ],
+  sights:[
+    ["Henderson Waves","Free","36 m up, Singapore's highest pedestrian bridge. Golden hour is the shot."],
+    ["Gillman Barracks","Free","Contemporary art galleries in colonial blocks — short detour, closed Mondays."],
+    ["HortPark","Free","Themed gardens and plant swap corner midway; good toilet + water stop."]
+  ],
+  tips:"Start HarbourFront, end Pasir Panjang so the big climb comes first. Weekday mornings near-empty." },
+
+{ id:"rail", name:"Rail Corridor (Central)", region:"Central", km:8, hrs:"2.5 h", effort:1, shade:"Mostly shaded",
+  mrt:[["Hillview",["DT"]],["King Albert Park",["DT"]],["Beauty World",["DT"]]],
+  blurb:"Flat, jungle-flanked path along the old KTM railway line, past truss bridges and the restored 1932 Bukit Timah Railway Station.",
+  highlights:["Restored Bukit Timah Railway Station","Two black truss bridges","Dense secondary forest, zero traffic"],
+  food:[
+    ["Beauty World Centre Food Centre","hawker","$","4th-storey old-school food centre — the stand-in while Bukit Timah Market rebuilds (till ~2029)."],
+    ["The Rail Mall","cafe","$$","Springleaf Prata Place and brunch cafes right at the Hillview trailhead."],
+    ["Cheong Chin Nam Road","hawker","$","Al-Azhar supper strip + Boon Tong Kee chicken rice, 5 min from the station."]
+  ],
+  sights:[
+    ["Bukit Timah Railway Station","Free","Restored station + Station Master's quarters, now a garden café."],
+    ["Former Ford Factory","Free–$6","WWII surrender site museum on Upper Bukit Timah. Free for citizens/PRs."],
+    ["Bukit Timah Summit detour","Free","Add Singapore's highest hill (163 m) if legs still fresh."]
+  ],
+  tips:"Fully flat — good easy day or run. Gravel fine after rain, some stretches muddy at the edges." },
+
+{ id:"macritchie", name:"MacRitchie TreeTop Walk Loop", region:"Central", km:10, hrs:"3.5–4.5 h", effort:3, shade:"Mostly shaded",
+  mrt:[["Caldecott",["CC","TE"]],["Marymount",["CC"]]],
+  blurb:"Proper rainforest loop around the reservoir with the free-standing TreeTop suspension bridge 25 m above the forest floor.",
+  highlights:["TreeTop Walk suspension bridge","Jelutong Tower lookout","Monitor lizards + long-tailed macaques"],
+  food:[
+    ["Adam Road Food Centre","hawker","$","Selera Rasa nasi lemak (the Sultan of Brunei's pick) post-hike."],
+    ["Roti Prata House, Upper Thomson","hawker","$","Crispy prata till late; the classic finish if you exit via Venus Drive."],
+    ["Upper Thomson cafés","cafe","$$","One Man Coffee, Habitat — flat whites and brunch along Thomson Road."]
+  ],
+  sights:[
+    ["TreeTop Walk","Free","One-way suspension bridge, closed Mondays, last entry 4:45 pm."],
+    ["Jelutong Tower","Free","Five-storey birdwatching tower — hornbills at dawn."],
+    ["Lower Peirce Boardwalk","Free","Quiet 900 m boardwalk extension under old-growth forest."]
+  ],
+  tips:"No food inside the reserve — carry 1.5 L water. Don't hold plastic bags visibly; macaques will negotiate." },
+
+{ id:"jurong", name:"Jurong Lake Gardens Loop", region:"West", km:5, hrs:"1.5–2 h", effort:1, shade:"Patchy shade",
+  mrt:[["Lakeside",["EW"]],["Chinese Garden",["EW"]]],
+  blurb:"Restored swamp forest, lalang fields and the rebuilt Chinese Garden pagodas around Jurong Lake — flat and pram-friendly.",
+  highlights:["Rasau Walk floating boardwalk","Lalang field (the Instagram grass)","Chinese Garden twin pagodas"],
+  food:[
+    ["Taman Jurong Market & Food Centre","hawker","$","Underrated two-floor centre — yong tau foo and claypot rice."],
+    ["Boon Lay Place Food Village","hawker","$","Power nasi lemak and Huat Huat BBQ chicken wings, one MRT stop away."]
+  ],
+  sights:[
+    ["Chinese Garden","Free","Rebuilt pagodas and stone boat — sunset over the lake."],
+    ["Science Centre","~$12","Cheap rainy-day escape next door; Omni-Theatre extra."],
+    ["Grasslands + otter family","Free","Smooth-coated otters cruise the lake edge at dawn."]
+  ],
+  tips:"Combine with the Coast-to-Coast Trail — this is its western trailhead (C2C runs 36 km to Coney Island)." },
+
+{ id:"eastcoast", name:"East Coast → Changi Beach", region:"East", km:15, hrs:"3.5–5 h", effort:2, shade:"Bring cap",
+  mrt:[["Siglap",["TE"]],["Bayshore",["TE"]]],
+  blurb:"Sea breeze the whole way: East Coast Park along the coastal PCN past Bedok Jetty to Changi Beach. Rent a bike to shorten it.",
+  highlights:["Bedok Jetty anglers at sunrise","Ship-watching along the strait","Changi Beach's old kampong casuarinas"],
+  food:[
+    ["East Coast Lagoon Food Village","hawker","$","Satay, BBQ stingray and orh luak with sand between your toes."],
+    ["Bedok 85 Fengshan","hawker","$","Bak chor mee soup supper legend, short detour inland."],
+    ["Changi Village Hawker Centre","hawker","$","Finish line nasi lemak — join the longest queue, it's correct."]
+  ],
+  sights:[
+    ["Bedok Jetty","Free","300 m into the sea; best free sunrise on the island."],
+    ["Xtreme SkatePark","Free","Watch (or drop in) at the bowl near Marine Cove."],
+    ["Changi Beach WWII site","Free","Sook Ching memorial markers along the quietest beach left."]
+  ],
+  tips:"Minimal shade after 10 am — start 7 am or go 4 pm onwards for sunset into Changi." },
+
+{ id:"punggol", name:"Punggol Waterway + Coney Island", region:"North-East", km:8, hrs:"2.5–3 h", effort:1, shade:"Patchy shade",
+  mrt:[["Punggol",["NE","LRT"]]],
+  blurb:"Man-made waterway park flowing into wild Coney Island — rustic paths, casuarina woods and (if lucky) the resident boars.",
+  highlights:["Jewel Bridge over the waterway","Coney Island's five beaches","Lorong Halus Red Bridge at sunrise"],
+  food:[
+    ["Punggol Settlement","seafood","$$","Chilli crab and salted egg sotong overlooking the strait."],
+    ["Tebing Lane","cafe","$$","Container-park cafés at the waterway's edge — brunch before the island."],
+    ["Kopitiam @ Waterway Point","hawker","$","Aircon backup when the humidity wins."]
+  ],
+  sights:[
+    ["Coney Island Park","Free","Gates open 7 am–7 pm; no lights, no water — bring your own."],
+    ["Lorong Halus Wetland","Free","Former landfill turned reed-bed wetland; red bridge is the landmark."],
+    ["Punggol Waterway Park","Free","Sunset from Jewel Bridge, otters most evenings."]
+  ],
+  tips:"Coney has zero facilities — hit toilets at Punggol Settlement first. Watch for boars: keep distance, no food out." },
+
+{ id:"kallang", name:"Bishan Park → Marina Barrage", region:"Central", km:11, hrs:"3–4 h", effort:2, shade:"Patchy shade",
+  mrt:[["Bishan",["NS","CC"]],["Bayfront",["CC","DT"]]],
+  blurb:"Follow the Kallang River from Bishan-AMK Park's naturalised banks all the way downstream to Gardens by the Bay and the Barrage.",
+  highlights:["Bishan otter family","Kallang Basin skyline reveal","Supertrees at the finish"],
+  food:[
+    ["Old Airport Road Food Centre","hawker","$","Arguably the GOAT hawker centre — lor mee, rojak, wanton mee. Mid-route detour."],
+    ["Satay by the Bay","hawker","$$","Satay under the Supertrees at the finish line."],
+    ["Kim San Leng, Bishan","hawker","$","Kopi + toast starting fuel at Bishan North."]
+  ],
+  sights:[
+    ["Gardens by the Bay (outdoor)","Free","Outdoor gardens free; Supertree light show nightly 7:45 & 8:45 pm."],
+    ["Marina Barrage","Free","Rooftop lawn, kites, and the full skyline panorama."],
+    ["Bishan-AMK Park","Free","River restored from concrete canal — otters and herons at dawn."]
+  ],
+  tips:"Do it southbound in the afternoon and time arrival for the 7:45 pm light show. MRT home from Bayfront." },
+
+{ id:"buloh", name:"Sungei Buloh + Kranji Countryside", region:"North", km:5, hrs:"2–3 h", effort:1, shade:"Patchy shade",
+  mrt:[["Kranji",["NS"]]],
+  blurb:"Mangrove boardwalks over mudflats: migratory birds Sep–Mar, resident crocodiles year-round. Singapore's wildest corner.",
+  highlights:["Estuarine crocodile spotting","Migratory shorebirds at the hides","Mud lobster mounds on the boardwalk"],
+  food:[
+    ["Poison Ivy Bistro, Bollywood Farms","cafe","$$","Farm-to-table nasi lemak and banana flower salad in the Kranji countryside."],
+    ["Pack a picnic","—","$","No food inside the reserve — the Eagle Point shelters have the views."]
+  ],
+  sights:[
+    ["Sungei Buloh Wetland Reserve","Free","Free entry daily 7 am–7 pm; Migratory Bird Trail hides."],
+    ["Kranji War Memorial","Free","4,400 Commonwealth graves on a quiet hill — sobering and beautiful."],
+    ["Hay Dairies Goat Farm","Free","Free entry, $ for milk; feeding before 10:30 am."]
+  ],
+  tips:"Kranji Express shuttle or 25 min walk from Kranji MRT. Binoculars transform this one. Peak birds: Oct–Feb." },
+
+{ id:"sembawang", name:"Sembawang Hot Spring → Coast", region:"North", km:6, hrs:"2 h", effort:1, shade:"Patchy shade",
+  mrt:[["Yishun",["NS"]],["Sembawang",["NS"]]],
+  blurb:"Boil eggs at Singapore's only natural hot spring, then walk north through old black-and-white bungalow country to a real sand beach.",
+  highlights:["70 °C cascading foot bath","Colonial-era Sembawang Park","Natural beach + ship-spotting"],
+  food:[
+    ["Chong Pang Market & Food Centre","hawker","$","Nasi lemak and satay bee hoon before you start."],
+    ["Sembawang White Beehoon","restaurant","$$","The original — worth the queue after the walk."],
+    ["Beaulieu House","cafe","$$","1910s seaside villa café inside Sembawang Park."]
+  ],
+  sights:[
+    ["Sembawang Hot Spring Park","Free","Free entry; bring eggs (10–12 min in the 70 °C pool) and a towel."],
+    ["Sembawang Park beach","Free","One of the last natural beaches; view of the shipyard cranes."],
+    ["Masjid Petempatan Melayu","Free","1963 kampong mosque under a giant rubber tree."]
+  ],
+  tips:"Egg supplies: buy at Chong Pang first. Weekday mornings are all uncles and foot baths — the best crowd." },
+
+{ id:"pasirris", name:"Pasir Ris Mangroves + Tampines Eco Green", region:"East", km:6, hrs:"2 h", effort:1, shade:"Patchy shade",
+  mrt:[["Pasir Ris",["EW"]]],
+  blurb:"Six-storey birdwatching tower, a genuine mangrove river boardwalk, then an untamed savannah-style park kept deliberately wild.",
+  highlights:["Mangrove boardwalk over Sungei Tampines","Bird tower at canopy height","Eco Green's grassland paths"],
+  food:[
+    ["Pasir Ris Central Hawker Centre","hawker","$","Two floors — soya sauce chicken and prawn mee downstairs."],
+    ["Tampines Round Market","hawker","$","Breakfast heavyweight: min jiang kueh and fried carrot cake."]
+  ],
+  sights:[
+    ["Pasir Ris Park mangroves","Free","Mudskippers, kingfishers, tree-climbing crabs at low tide."],
+    ["Tampines Eco Green","Free","No lights, no bins, compost toilet — properly wild. Day visits only."],
+    ["Pasir Ris beach","Free","Quiet stretch for a cool-down; kelongs offshore."]
+  ],
+  tips:"Check tide tables — low tide turns the mangrove floor into a wildlife show." },
+
+{ id:"ubin", name:"Changi Point + Pulau Ubin", region:"East", km:4, hrs:"half–full day", effort:2, shade:"Patchy shade",
+  mrt:[["Tampines",["EW","DT"]]],
+  blurb:"Creaky coastal boardwalk at Changi Point, then a $4 bumboat to Pulau Ubin: kampong houses, quarry lakes and Chek Jawa's sea-grass flats.",
+  highlights:["Bumboat ride ($4, cash)","Chek Jawa wetlands + Jejawi Tower","Last kampong village in Singapore"],
+  food:[
+    ["Changi Village Hawker Centre","hawker","$","Nasi lemak wars: pick a queue, no wrong answers."],
+    ["Ubin kampong eateries","seafood","$$","Post-ride mee goreng and coconuts by the jetty."],
+    ["Little Island Brewing Co","cafe","$$","Craft beer garden at Changi Point for the return leg."]
+  ],
+  sights:[
+    ["Chek Jawa Wetlands","Free","Boardwalk over six ecosystems; check tide < 0.5 m for the flats."],
+    ["Bike rental on Ubin","$8–15/day","The whole island opens up; Ketam mountain-bike loop if keen."],
+    ["Changi Boardwalk","Free","Sunset section past the sailing club and old ferry terminal."]
+  ],
+  tips:"Boats leave when 12 people board (or pay out the boat). Bring cash, insect repellent, and no Sunday illusions — go weekday." },
+
+{ id:"sentosa", name:"Berlayer Creek → Sentosa Boardwalk", region:"South", km:5, hrs:"2–3 h", effort:1, shade:"Patchy shade",
+  mrt:[["Labrador Park",["CC"]],["HarbourFront",["NE","CC"]]],
+  blurb:"Mangrove creek at Labrador, WWII gun batteries, then walk into Sentosa free via the boardwalk to Fort Siloso and Siloso Beach.",
+  highlights:["Berlayer Creek mangrove boardwalk","Labrador's 6-inch guns","Fort Siloso Skywalk views"],
+  food:[
+    ["Seah Im Food Centre","hawker","$","Pre-walk kaya toast and kopi near HarbourFront."],
+    ["Food Republic, VivoCity","hawker","$$","Aircon hawker floor with harbour views mid-route."],
+    ["Coastes, Siloso Beach","cafe","$$","Feet-in-sand finish if the budget stretches."]
+  ],
+  sights:[
+    ["Fort Siloso + Skywalk","Free","Singapore's best-preserved coastal fort — completely free, 11-storey skywalk."],
+    ["Berlayer Creek","Free","One of only two mangrove patches left on the south coast."],
+    ["Sentosa beaches","Free","Walking in via boardwalk = free island entry."]
+  ],
+  tips:"Sentosa on foot costs nothing. Time Fort Siloso for late afternoon, beach for sunset, walk out after dark." }
+];
+
+const PLACES = [
+["Singapore Chinese Cultural Centre","Telok Ayer","Free","Rotating heritage exhibitions + rooftop sky garden with CBD views. Check their event calendar for free performances.","culture"],
+["Fort Canning Park","Dhoby Ghaut","Free","Spice garden, the famous tree tunnel photo spot, and 14th-century history layered on a hill.","nature"],
+["National Museums (NMS, Peranakan, ACM)","City","Free for SC/PR","All national museums free for citizens & PRs; ~$10–15 otherwise. NMS rotunda alone is worth it.","culture"],
+["Esplanade Waterfront","Marina Bay","Free","Free live gigs most evenings at the outdoor theatre — check 'What's On'.","events"],
+["Supertree Grove Light Show","Gardens by the Bay","Free","Garden Rhapsody, nightly 7:45 & 8:45 pm. Lie on the ground under the trees.","events"],
+["Botanic Gardens","Napier","Free","UNESCO site, free daily 5 am–midnight; free symphony concerts some weekends at Shaw Foundation stage.","nature"],
+["Haw Par Villa","Pasir Panjang","Free","1,000 statues of Chinese mythology including the Ten Courts of Hell ($ for Hell's Museum). Gloriously strange.","culture"],
+["Marina Barrage","Marina South","Free","Rooftop lawn for kites and picnics with the full skyline. Combine with Gardens by the Bay.","nature"],
+["Kampong Gelam / Chinatown / Little India","Various","Free","NHB self-guided heritage trails (roots.gov.sg) — architecture, murals, and the best snack density per km.","culture"],
+["St John's + Lazarus Island","Marina South Pier","~$15 ferry","Island-hop day trip: lagoon swimming at Lazarus's white-sand beach. Bring everything, leave nothing.","nature"]
+];
+
+const EVENT_LINKS = [
+["NParks events calendar","https://www.nparks.gov.sg/activities","guided walks, volunteer planting days"],
+["SCCC What's On","https://singaporeccc.org.sg","free exhibitions and cultural performances"],
+["Esplanade Offstage / What's On","https://www.esplanade.com/whats-on","free waterfront gigs"],
+["Visit Singapore events","https://www.visitsingapore.com/whats-happening/all-happenings/","festivals and seasonal happenings"],
+["NHB Roots heritage trails","https://www.roots.gov.sg/visit/trails","self-guided heritage walk maps"],
+["Honeycombers weekend guides","https://thehoneycombers.com/singapore/","cheap/free weekend roundups"]
+];
+
+const EFFORT = {1:"Chill",2:"Moderate",3:"Sweaty"};
+const REGIONS = ["All","Central","East","North","North-East","South","West"];
+
+// ---- state ----
+let view = "trails", region = "All", query = "", detail = null;
+let makanFilter = "all";
+const store = {
+  get(k,f){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : f; }catch(e){ return f; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+let walked = store.get("jj-walked", []);
+let plan = store.get("jj-plan", { trail:"", checks:{}, note:"" });
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function mapsLink(name){
+  const u = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(name + " Singapore");
+  const p = GEO[name];
+  const a = p ? `https://maps.apple.com/?q=${encodeURIComponent(name)}&ll=${p[0]},${p[1]}`
+              : "https://maps.apple.com/?q=" + encodeURIComponent(name + " Singapore");
+  return `<a class="maplink" href="${u}" target="_blank" rel="noopener">📍 Map + photos</a> <a class="maplink" href="${a}" target="_blank" rel="noopener">🍎 Apple Maps</a>`;
+}
+
+function routePoints(t){
+  return (ROUTES[t.id] || []).map(p => typeof p === "string" ? GEO[p] : p).filter(Boolean);
+}
+
+// Google Maps URL API caps waypoints at ~9, so sample the route evenly.
+function gmapsDirUrl(t){
+  const pts = routePoints(t);
+  if(pts.length < 2) return "";
+  const mid = pts.slice(1, -1);
+  const step = Math.max(1, Math.ceil(mid.length / 8));
+  const wp = mid.filter((_, i) => i % step === 0).slice(0, 8);
+  const f = p => p[0].toFixed(5) + "," + p[1].toFixed(5);
+  return "https://www.google.com/maps/dir/?api=1&origin=" + f(pts[0]) +
+    "&destination=" + f(pts[pts.length - 1]) + "&travelmode=walking" +
+    (wp.length ? "&waypoints=" + encodeURIComponent(wp.map(f).join("|")) : "");
+}
+
+function pinsCSV(t){
+  const q = s => '"' + String(s).replace(/"/g, '""') + '"';
+  const rows = [["Name","Group","Latitude","Longitude","Notes"]];
+  t.food.forEach(([n,ty,pr,note], i) => {
+    if(GEO[n]) rows.push(["F" + (i+1) + " · " + n, "Makan", GEO[n][0], GEO[n][1], ty + " · " + pr + " · " + note]);
+  });
+  t.sights.forEach(([n,c,note], i) => {
+    if(GEO[n]) rows.push(["S" + (i+1) + " · " + n, "Worth a stop", GEO[n][0], GEO[n][1], c + " · " + note]);
+  });
+  t.mrt.forEach(([stn]) => {
+    const g = GEO[stn + " MRT"];
+    if(g) rows.push([stn + " MRT", "MRT", g[0], g[1], "Station"]);
+  });
+  const pts = routePoints(t);
+  if(pts.length > 1){
+    rows.push(["START · " + t.name, "Route", pts[0][0], pts[0][1], "Trail start"]);
+    rows.push(["END · " + t.name, "Route", pts[pts.length - 1][0], pts[pts.length - 1][1], "Trail end"]);
+  }
+  return rows.map(r => r.map(q).join(",")).join("\r\n");
+}
+
+async function savePins(t){
+  const note = $("#pinsnote");
+  const say = m => { if(note) note.textContent = m; };
+  if(!(window.claude && window.claude.downloads)){
+    say("Saving isn't available in this view — open the page on claude.ai and try again.");
+    return;
+  }
+  const csv = pinsCSV(t);
+  const base = "jalan-jalan-" + t.id + "-pins";
+  try{
+    await window.claude.downloads.save({ filename: base + ".csv", data: csv });
+    say("Saved ✓ Import at mymaps.google.com → Create a new map → Import → pick Latitude/Longitude as position, Name as title. It then shows in the Google Maps app under Saved ▸ Maps.");
+  }catch(err){
+    const code = err && err.code;
+    if(code === "extension_not_enabled"){
+      try{
+        await window.claude.downloads.save({ filename: base + ".txt", data: csv });
+        say("Saved as .txt ✓ Rename it to .csv, then import at mymaps.google.com (Create a new map → Import).");
+      }catch(e2){
+        if(!e2 || e2.code !== "declined") say("Couldn't save the file (" + (e2 && e2.code || "error") + ").");
+      }
+    } else if(code !== "declined"){
+      say("Couldn't save the file (" + (code || "error") + ").");
+    }
+  }
+}
+
+function mrtChips(mrt){
+  return '<div class="mrt">' + mrt.map(([stn,lines]) =>
+    '<span class="stn">' + lines.map(l =>
+      `<span class="dot" style="background:${LINE[l][0]}" title="${l} line">${LINE[l][1]}</span>`
+    ).join("") + esc(stn) + '</span>'
+  ).join("") + '</div>';
+}
+
+function costPill(c){
+  const free = /^free/i.test(c);
+  return `<span class="cost${free ? " free" : ""}">${esc(c)}</span>`;
+}
+
+function cleanNote(name){
+  return CLEAN[name] ? `<span class="clean">🧹 closed for cleaning: ${esc(CLEAN[name])}</span>` : "";
+}
+
+function matches(t){
+  const q = query.toLowerCase();
+  if(!q) return true;
+  const hay = [t.name, t.region, t.blurb, t.shade, EFFORT[t.effort],
+    ...t.highlights, ...t.food.flat(), ...t.sights.flat()].join(" ").toLowerCase();
+  return hay.includes(q);
+}
+
+function renderProgress(){
+  $("#progress").innerHTML = `<b>${walked.length}</b> / ${TRAILS.length} trails walked`;
+}
+
+// ---- map ----
+function trailMap(t){
+  const routePts = (ROUTES[t.id] || []).map(p => typeof p === "string" ? GEO[p] : p).filter(Boolean);
+  const foods = t.food.map((f,i) => [f[0], i]).filter(([n]) => GEO[n]);
+  const sights = t.sights.map((s,i) => [s[0], i]).filter(([n]) => GEO[n]);
+  const mrts = t.mrt.map(m => m[0] + " MRT").filter(n => GEO[n]);
+  const all = [...routePts, ...foods.map(([n]) => GEO[n]), ...sights.map(([n]) => GEO[n]), ...mrts.map(n => GEO[n])];
+  if(all.length < 2) return "";
+  const bg = MAPBG[t.id];
+  let minLat, maxLat, minLon, maxLon;
+  if(bg){
+    [minLat, minLon, maxLat, maxLon] = bg.b;
+  } else {
+    minLat = Math.min(...all.map(p => p[0])); maxLat = Math.max(...all.map(p => p[0]));
+    minLon = Math.min(...all.map(p => p[1])); maxLon = Math.max(...all.map(p => p[1]));
+    const padLat = (maxLat - minLat) * 0.14 + 0.0025, padLon = (maxLon - minLon) * 0.14 + 0.0025;
+    minLat -= padLat; maxLat += padLat; minLon -= padLon; maxLon += padLon;
+  }
+  const inB = p => p[0] >= minLat && p[0] <= maxLat && p[1] >= minLon && p[1] <= maxLon;
+  const mPerLon = 111320 * Math.cos(minLat * Math.PI / 180), mPerLat = 110574;
+  const W = 640;
+  const H = Math.max(240, Math.min(820, W * ((maxLat - minLat) * mPerLat) / ((maxLon - minLon) * mPerLon)));
+  const xy = p => [((p[1] - minLon) / (maxLon - minLon) * W).toFixed(1), ((maxLat - p[0]) / (maxLat - minLat) * H).toFixed(1)];
+  const path = routePts.map((p,i) => (i ? "L" : "M") + xy(p).join(" ")).join(" ");
+  const kmSpan = (maxLon - minLon) * mPerLon / 1000;
+  const nice = [0.5,1,2,5,10].reduce((a,b) => Math.abs(kmSpan/4 - b) < Math.abs(kmSpan/4 - a) ? b : a);
+  const barW = nice * 1000 / ((maxLon - minLon) * mPerLon) * W;
+  const mk = (items, cls) => items.filter(([n]) => inB(GEO[n])).map(([n, idx]) => {
+    const [x,y] = xy(GEO[n]);
+    return `<g class="mk" data-goto="${cls}-${idx}"><circle cx="${x}" cy="${y}" r="10" class="mc ${cls}"></circle><text x="${x}" y="${y}" dy="3.5" text-anchor="middle" class="mt">${cls.toUpperCase()}${idx+1}</text><title>${esc(n)}</title></g>`;
+  }).join("");
+  const stns = mrts.filter(n => inB(GEO[n])).map(n => { const [x,y] = xy(GEO[n]);
+    return `<rect x="${x-5}" y="${y-5}" width="10" height="10" rx="2" class="stn-mk"><title>${esc(n)}</title></rect>`; }).join("");
+  const bgimg = bg ? `<image class="sat" href="${bg.img}" x="0" y="0" width="${W}" height="${Math.round(H)}" preserveAspectRatio="none"/>` : "";
+  return `<div class="mapbox">
+    <svg viewBox="0 0 ${W} ${Math.round(H)}" role="img" aria-label="Map of ${esc(t.name)}">
+      ${bgimg}
+      <path d="${path}" class="routehalo"/>
+      <path d="${path}" class="routeline"/>
+      ${stns}${mk(foods,"f")}${mk(sights,"s")}
+      <line x1="14" y1="${Math.round(H-14)}" x2="${(14+barW).toFixed(0)}" y2="${Math.round(H-14)}" class="scale"/>
+      <text x="${(14+barW/2).toFixed(0)}" y="${Math.round(H-20)}" text-anchor="middle" class="mt2">${nice} km</text>
+    </svg>
+    <div class="maplegend"><span><span class="lg" style="background:var(--canopy)"></span>route</span><span><span class="lg" style="background:var(--amber)"></span>makan</span><span><span class="lg" style="background:var(--plum)"></span>worth a stop</span><span><span class="lg" style="background:var(--muted);border-radius:2px"></span>MRT</span></div>
+    <div class="mapactions">
+      ${gmapsDirUrl(t) ? `<a class="maplink big" href="${gmapsDirUrl(t)}" target="_blank" rel="noopener">🧭 Route in Google Maps</a>` : ""}
+      <button class="maplink big" data-pins="${t.id}">📌 Pins file → My Maps</button>
+    </div>
+    <p class="mapnote" id="pinsnote"></p>
+    <p class="mapnote">Pins sit at real coordinates (OneMap); the route line is simplified, not turn-by-turn. Tap a pin to jump to its card.${bg ? " Imagery © Esri, Maxar, Earthstar Geographics." : ""}</p>
+  </div>`;
+}
+
+// ---- views ----
+function trailCard(t){
+  const done = walked.includes(t.id);
+  const img = IMGS[t.id] ? `<img class="photo" src="${IMGS[t.id]}" alt="" loading="lazy">` : "";
+  return `<button class="card" data-trail="${t.id}">
+    ${img}
+    <span class="km">${t.km}<small> km · ${esc(t.hrs)}</small></span>
+    <h3>${esc(t.name)}</h3>
+    <span class="meta">
+      <span class="pill">${esc(t.region)}</span>
+      <span class="pill">${EFFORT[t.effort]}</span>
+      <span class="pill">${esc(t.shade)}</span>
+      ${TRAIL_ALERTS[t.id] ? '<span class="pill warn">⚠ notice</span>' : ""}
+      ${done ? '<span class="pill walked">✓ walked</span>' : ""}
+    </span>
+    <p class="blurb">${esc(t.blurb)}</p>
+    ${mrtChips(t.mrt)}
+  </button>`;
+}
+
+function viewTrails(){
+  if(detail) return viewDetail(TRAILS.find(t => t.id === detail));
+  const chips = REGIONS.map(r =>
+    `<button class="chip" data-region="${r}" aria-pressed="${r===region}">${r}</button>`).join("");
+  const list = TRAILS.filter(t => (region==="All" || t.region===region) && matches(t));
+  return `<div class="filters" role="group" aria-label="Region">${chips}</div>
+    <div class="grid">${list.map(trailCard).join("")}</div>
+    ${list.length ? "" : '<p class="empty">No trails match — try another region or search term.</p>'}`;
+}
+
+function viewDetail(t){
+  const done = walked.includes(t.id);
+  const cr = IMG_CREDIT[t.id];
+  const img = IMGS[t.id] ? `<img class="photo hero" src="${IMGS[t.id]}" alt="${esc(t.name)}">` +
+    (cr ? `<p class="credit">Photo: <a href="${cr.page}" target="_blank" rel="noopener">${esc(cr.artist || "Wikimedia Commons")}</a> · ${esc(cr.license)}</p>` : "") : "";
+  return `<button class="back" data-back>← All trails</button>
+  <div class="detail">
+    <h2>${esc(t.name)}</h2>
+    ${img}
+    ${mrtChips(t.mrt)}
+    <div class="statline">
+      <span><b>${t.km}</b> km</span><span><b>${esc(t.hrs)}</b></span>
+      <span>${EFFORT[t.effort]}</span><span>${esc(t.shade)}</span><span>${esc(t.region)}</span>
+    </div>
+    ${TRAIL_ALERTS[t.id] ? `<div class="alert">⚠ ${esc(TRAIL_ALERTS[t.id])}</div>` : ""}
+    <p>${esc(t.blurb)}</p>
+    ${trailMap(t)}
+    <div class="section"><p class="eyebrow trail">Highlights</p>
+      <ul class="stops">${t.highlights.map(h => `<li class="stop">${esc(h)}</li>`).join("")}</ul></div>
+    <div class="section"><p class="eyebrow food">Makan stops</p>
+      <ul class="stops">${t.food.map(([n,ty,pr,note],i) =>
+        `<li class="stop f" id="stop-f-${i}"><span class="cost">${esc(pr)}</span><b><span class="badge f">F${i+1}</span>${esc(n)}</b><span class="sub">${esc(ty)} · ${esc(note)}</span>${cleanNote(n)}${n==="Pack a picnic" ? "" : mapsLink(n)}</li>`).join("")}</ul></div>
+    <div class="section"><p class="eyebrow sight">Worth stopping for</p>
+      <ul class="stops">${t.sights.map(([n,c,note],i) =>
+        `<li class="stop s" id="stop-s-${i}">${costPill(c)}<b><span class="badge s">S${i+1}</span>${esc(n)}</b><span class="sub">${esc(note)}</span>${mapsLink(n)}</li>`).join("")}</ul></div>
+    <div class="section tips"><b>Tip:</b> ${esc(t.tips)}</div>
+    <button class="walkbtn" data-walk="${t.id}" aria-pressed="${done}">${done ? "✓ Walked — tap to unmark" : "Mark as walked"}</button>
+  </div>`;
+}
+
+function viewMakan(){
+  const types = ["all","hawker","cafe","seafood","restaurant"];
+  const chips = types.map(ty =>
+    `<button class="chip" data-mf="${ty}" aria-pressed="${ty===makanFilter}">${ty === "all" ? "All" : ty}</button>`).join("");
+  const rows = [];
+  const seen = new Set();
+  TRAILS.forEach(t => t.food.forEach(([n,ty,pr,note]) => {
+    if(seen.has(n) || n === "Pack a picnic") return; seen.add(n);
+    rows.push({n,ty,pr,note,trail:t.name});
+  }));
+  const q = query.toLowerCase();
+  const list = rows.filter(r =>
+    (makanFilter==="all" || r.ty===makanFilter) &&
+    (!q || (r.n+r.ty+r.note+r.trail).toLowerCase().includes(q)));
+  return `<div class="filters" role="group" aria-label="Type">${chips}</div>
+    <div class="grid">${list.map(r => `<div class="card fcard">
+      ${FIMGS[r.n] ? `<img class="photo" src="${FIMGS[r.n]}" alt="" loading="lazy" title="${FIMG_CREDIT[r.n] ? esc("Photo: " + (FIMG_CREDIT[r.n].artist || "Wikimedia Commons") + " · " + FIMG_CREDIT[r.n].license) : ""}">` : ""}
+      <h3>${esc(r.n)}</h3>
+      <span class="meta"><span class="pill">${esc(r.ty)}</span><span class="pill">${esc(r.pr)}</span></span>
+      <p class="blurb">${esc(r.note)}</p>
+      ${cleanNote(r.n)}
+      <p class="near">near: ${esc(r.trail)}</p>
+      <span>${mapsLink(r.n)}</span>
+    </div>`).join("")}</div>
+    ${list.length ? "" : '<p class="empty">Nothing matches lah. Widen the filter.</p>'}
+    <p class="asof">🧹 cleaning dates: NEA via data.gov.sg, as of ${DATA_ASOF}</p>
+    <p class="credit">Photos: Wikimedia Commons contributors (hover a photo for credit) — no photo? Use its Map + photos link.</p>`;
+}
+
+function viewSee(){
+  const q = query.toLowerCase();
+  const list = PLACES.filter(([n,a,c,note]) => !q || (n+a+c+note).toLowerCase().includes(q));
+  return `<div class="grid" style="margin-top:20px">${list.map(([n,area,cost,note]) =>
+    `<div class="card pcard">
+      <h3>${esc(n)}</h3>
+      <span class="meta"><span class="pill">${esc(area)}</span>${costPill(cost)}</span>
+      <p class="blurb">${esc(note)}</p>
+      <span>${mapsLink(n)}</span>
+    </div>`).join("")}</div>
+    ${list.length ? "" : '<p class="empty">No matches.</p>'}
+    <div class="links">
+      <p class="eyebrow trail">Live listings (this page is static — these aren't)</p>
+      <ul>${EVENT_LINKS.map(([n,u,d]) =>
+        `<li><a href="${u}" target="_blank" rel="noopener">${esc(n)}</a> — ${esc(d)}</li>`).join("")}</ul>
+    </div>`;
+}
+
+function viewUpdates(){
+  const cleanRows = Object.entries(CLEAN).map(([n,d]) =>
+    `<tr><td>${esc(n)}</td><td>${esc(d)}</td></tr>`).join("");
+  return `
+  <div class="section"><p class="asof">Data pulled ${DATA_ASOF} · refreshed weekly by a scheduled agent</p></div>
+
+  <div class="section"><p class="eyebrow trail">Trail + park connector notices</p>
+    <ul class="stops">
+      <li class="stop"><b>Rail Corridor (South): Henderson Rd → Spooner Rd closed</b>
+        <span class="sub">Trail improvement works Phase 2, until ~31 Jul 2027. The Central stretch featured in this app is open.</span></li>
+      <li class="stop"><b>Kallang Park Connector: section closed</b>
+        <span class="sub">Construction works on part of the Bishan → Marina route; alternative path signposted on site.</span></li>
+      <li class="stop"><b>one-north Park: section closed</b>
+        <span class="sub">Enhancement works 2 Jun 2026 – 31 Mar 2027; alternative path available.</span></li>
+    </ul></div>
+
+  <div class="section"><p class="eyebrow food">Hawker centre closures</p>
+    <ul class="stops">
+      <li class="stop f"><b>Bukit Timah Market & Food Centre — closed till ~2029</b>
+        <span class="sub">Full redevelopment since Oct 2024. Beauty World Centre Food Centre is the nearby stand-in.</span></li>
+      <li class="stop f"><b>Changi Village Hawker Centre — repairs from 1 Oct 2026</b>
+        <span class="sub">Repairs & redecoration begin 1 Oct 2026; expect partial or full closure. Check before the East Coast → Changi walk.</span></li>
+    </ul>
+    <p class="eyebrow food" style="margin-top:18px">Upcoming cleaning days (app's centres)</p>
+    <div class="tablewrap"><table class="sched">
+      <tr><th>Centre</th><th>2026 dates</th></tr>${cleanRows}
+    </table></div>
+    <p class="blurb" style="margin-top:8px">Seah Im Food Centre and privately-run spots (Kim San Leng, Kopitiam outlets, cafés) aren't in the NEA dataset — check on site.</p></div>
+
+  <div class="section"><p class="eyebrow sight">New + newly opened parks</p>
+    <ul class="stops">${NEW_PARKS.map(([n,when,cost,note]) =>
+      `<li class="stop s">${costPill(cost)}<b>${esc(n)} <span style="font-weight:400;color:var(--muted)">· opened ${esc(when)}</span></b><span class="sub">${esc(note)}</span>${mapsLink(n)}</li>`).join("")}</ul>
+    <p class="eyebrow sight" style="margin-top:18px">Coming up</p>
+    <ul class="stops">${COMING_PARKS.map(([n,when,note]) =>
+      `<li class="stop"><b>${esc(n)} <span style="font-weight:400;color:var(--muted)">· ${esc(when)}</span></b><span class="sub">${esc(note)}</span></li>`).join("")}</ul>
+    <p class="blurb" style="margin-top:8px">NParks target: 25+ new parks and 50 km of new park connectors by 2030.</p></div>
+
+  <div class="links">
+    <p class="eyebrow trail">Official sources</p>
+    <ul>${UPDATE_LINKS.map(([n,u,d]) =>
+      `<li><a href="${u}" target="_blank" rel="noopener">${esc(n)}</a> — ${esc(d)}</li>`).join("")}</ul>
+  </div>`;
+}
+
+function viewDay(){
+  const t = TRAILS.find(x => x.id === plan.trail);
+  const opts = ['<option value="">Pick a trail…</option>']
+    .concat(TRAILS.map(x => `<option value="${x.id}" ${x.id===plan.trail?"selected":""}>${esc(x.name)} (${x.km} km)</option>`))
+    .join("");
+  let body = "";
+  if(t){
+    const items = [
+      ...t.food.map(([n,,pr,note]) => ({key:"f:"+n, label:`Makan · ${n} (${pr})`, sub:note + (CLEAN[n] ? ` — 🧹 cleaning: ${CLEAN[n]}` : "")})),
+      ...t.sights.map(([n,c,note]) => ({key:"s:"+n, label:`See · ${n} (${c})`, sub:note}))
+    ];
+    body = `
+      <div class="statline"><span><b>${t.km}</b> km</span><span><b>${esc(t.hrs)}</b></span><span>${EFFORT[t.effort]}</span><span>${esc(t.shade)}</span></div>
+      ${mrtChips(t.mrt)}
+      ${TRAIL_ALERTS[t.id] ? `<div class="alert">⚠ ${esc(TRAIL_ALERTS[t.id])}</div>` : ""}
+      <div class="section"><p class="eyebrow trail">Pick your stops</p>
+      <ul class="stops">${items.map(it => `
+        <li class="plan-item">
+          <input type="checkbox" id="ck-${esc(it.key)}" data-check="${esc(it.key)}" ${plan.checks[it.key] ? "checked" : ""}>
+          <label for="ck-${esc(it.key)}"><b>${esc(it.label)}</b><br><span style="font-size:.85rem;color:var(--muted)">${esc(it.sub)}</span></label>
+        </li>`).join("")}</ul></div>
+      <div class="section"><p class="eyebrow trail">Notes</p>
+        <textarea data-note placeholder="Meet who, what time, bring what…">${esc(plan.note)}</textarea></div>
+      <button class="copybtn" data-copy>Copy plan</button><span class="copied" id="copied" role="status"></span>`;
+  } else {
+    body = '<p class="empty">Pick a trail and build your day: walk + makan + a cheap thrill.</p>';
+  }
+  return `<div class="section" style="margin-top:20px">
+    <p class="eyebrow trail">Trail</p>
+    <select data-plantrail aria-label="Choose trail">${opts}</select></div>${body}`;
+}
+
+function planText(){
+  const t = TRAILS.find(x => x.id === plan.trail);
+  if(!t) return "";
+  const picks = Object.keys(plan.checks).filter(k => plan.checks[k]);
+  const warns = picks.filter(k => k.startsWith("f:") && CLEAN[k.slice(2)])
+    .map(k => `  ! ${k.slice(2)} cleaning: ${CLEAN[k.slice(2)]}`);
+  const lines = [
+    `JALAN-JALAN PLAN — ${t.name}`,
+    `${t.km} km · ${t.hrs} · ${EFFORT[t.effort]} · ${t.shade}`,
+    `MRT: ${t.mrt.map(([s,l]) => `${s} (${l.join("/")})`).join(" / ")}`,
+    TRAIL_ALERTS[t.id] ? `NOTICE: ${TRAIL_ALERTS[t.id]}` : "",
+    ``,
+    `Stops:`,
+    ...picks.map(k => `  • ${k.slice(2)}`),
+    ...(warns.length ? [``, `Check cleaning dates (NEA, as of ${DATA_ASOF}):`, ...warns] : []),
+    plan.note ? `\nNotes: ${plan.note}` : "",
+    ``, `Tip: ${t.tips}`
+  ];
+  return lines.filter(x => x !== "").join("\n");
+}
+
+// ---- render + events ----
+function render(){
+  renderProgress();
+  const v = {trails:viewTrails, makan:viewMakan, see:viewSee, updates:viewUpdates, day:viewDay}[view];
+  $("#main").innerHTML = v();
+}
+
+document.querySelector("nav.tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if(!b) return;
+  view = b.dataset.view; detail = null;
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t === b));
+  render();
+});
+
+$("#search").addEventListener("input", e => { query = e.target.value; if(detail) detail = null; render(); });
+
+$("#main").addEventListener("click", e => {
+  if(e.target.closest("a")) return;
+  const gm = e.target.closest("[data-goto]");
+  if(gm){
+    const el = document.getElementById("stop-" + gm.dataset.goto);
+    if(el){
+      el.scrollIntoView({behavior:"smooth", block:"center"});
+      el.classList.add("flash");
+      setTimeout(() => el.classList.remove("flash"), 1600);
+    }
+    return;
+  }
+  const pb = e.target.closest("[data-pins]");
+  if(pb){ const t = TRAILS.find(x => x.id === pb.dataset.pins); if(t) savePins(t); return; }
+  const card = e.target.closest("[data-trail]");
+  if(card){ detail = card.dataset.trail; render(); window.scrollTo({top:0}); return; }
+  if(e.target.closest("[data-back]")){ detail = null; render(); return; }
+  const rg = e.target.closest("[data-region]");
+  if(rg){ region = rg.dataset.region; render(); return; }
+  const mf = e.target.closest("[data-mf]");
+  if(mf){ makanFilter = mf.dataset.mf; render(); return; }
+  const wk = e.target.closest("[data-walk]");
+  if(wk){
+    const id = wk.dataset.walk;
+    walked = walked.includes(id) ? walked.filter(x => x !== id) : walked.concat(id);
+    store.set("jj-walked", walked); render(); return;
+  }
+  if(e.target.closest("[data-copy]")){
+    const txt = planText();
+    const done = () => { const el = $("#copied"); if(el){ el.textContent = "Copied — paste anywhere"; setTimeout(() => { el.textContent = ""; }, 2500); } };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done, () => fallbackCopy(txt, done));
+    } else fallbackCopy(txt, done);
+  }
+});
+
+function fallbackCopy(txt, done){
+  const ta = document.createElement("textarea");
+  ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); done(); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+$("#main").addEventListener("change", e => {
+  if(e.target.matches("[data-plantrail]")){
+    plan = { trail:e.target.value, checks:{}, note:plan.note };
+    store.set("jj-plan", plan); render(); return;
+  }
+  const ck = e.target.closest("[data-check]");
+  if(ck){ plan.checks[ck.dataset.check] = ck.checked; store.set("jj-plan", plan); }
+});
+$("#main").addEventListener("input", e => {
+  if(e.target.matches("[data-note]")){ plan.note = e.target.value; store.set("jj-plan", plan); }
+});
+
+render();
+</script>
