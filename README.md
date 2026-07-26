@@ -1,43 +1,37 @@
 # Jalan-Jalan
 
-Singapore park-connector / hawker / cheap-attractions web app. Two builds from one codebase:
+Singapore park-connector / hawker / cheap-attractions web app.
+**Live: https://weesoojun.github.io/jalan-jalan/**
 
-1. **GitHub Pages site** (primary) — `index.html`, built from `site.template.html` by
-   `build_site.py`. Interactive Leaflet maps (OneMap street + Esri satellite tiles, live),
-   geolocation "you are here", per-trail KML export for Google My Maps, and hawker-cleaning
-   dates fetched live from data.gov.sg on page load (baked dates as offline fallback).
-2. **claude.ai artifact** (legacy, CSP-sandboxed — no external requests) —
-   https://claude.ai/code/artifact/c5a8cfbf-0921-42fa-bd1a-827dce4bd59e, built from
-   `template.html` by `build.py` with satellite crops baked in; refreshed weekly by cloud routine.
+Vite + React 19 + TypeScript + react-leaflet, managed with pnpm.
+Deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
 
-## Files
-
-| File | What it is |
-|---|---|
-| `site.template.html` | **Pages site source.** Edit this to change the site. `/*__IMGS__*/` marker gets photos baked in. |
-| `build_site.py` | Builds `index.html` from `site.template.html` (photos only; tiles are live). |
-| `index.html` | Built Pages output — what GitHub Pages serves. Regenerate, don't edit. |
-| `template.html` | Artifact app source (HTML/CSS/JS) minus photos, with baked-satellite trailMap. |
-| `build.py` | Builds `app.html` from `template.html` (photos + satellite crops embedded). |
-| `app.html` | Built artifact output. Regenerate, don't edit. |
-| `imgs/` `img_meta.json` | 12 trail photos (Wikimedia Commons, CC) + credits. |
-| `fimgs/` `fimg_meta.json` | 15 hawker-centre photos + credits. |
-| `mapbg/` `mapbg_meta.json` | 12 satellite map backgrounds (Esri World Imagery tiles, stitched + cropped) and their lat/lon bounds. |
-| `make_bgs.py` | Recomputes map bounds + regenerates `mapbg/` from trail point sets. Run only if trail stops change, then copy the new bounds into `MAPBG_BBOX` in `build.py` and the routine. Needs Pillow (`python3 -m venv venv && venv/bin/pip install Pillow`). |
-| `geo.json` | OneMap coordinates used to hand-write the `GEO` constant in the template. |
-
-## Build & publish
+## Develop
 
 ```bash
-python3 build.py            # uses cached photos → app.html
-python3 build.py --fetch    # re-downloads photos from Wikimedia Commons first
-python3 build.py --no-images
+corepack pnpm install   # pnpm version pinned by packageManager in package.json
+corepack pnpm dev       # local dev server
+corepack pnpm build     # typecheck + production build to dist/
 ```
 
-Then ask Claude Code to publish `app.html` to the artifact URL above (Artifact tool,
-`url` parameter, favicon 🌿). The artifact declares the `downloads` capability (for the
-per-trail "Pins file → My Maps" CSV export) — omit the capabilities parameter when
-republishing so it carries forward.
+## Layout
+
+| Path | What it is |
+|---|---|
+| `src/data.ts` | All app data (trails, coords, routes, curated notices). Edit here. |
+| `src/components/` | The five views + the react-leaflet trail map. |
+| `src/lib/` | KML export, Google/Apple Maps URLs, live NEA cleaning-dates hook, localStorage. |
+| `public/imgs` `public/fimgs` | Trail/food photos (Wikimedia Commons; credits in `src/data_*_meta.json`). |
+| `legacy/` | Pre-React builds: claude.ai artifact (`template.html` + `build.py`) and the static single-file site. Kept for reference; the artifact routine is disabled. |
+
+## Supply-chain hardening
+
+- pnpm 10 pinned via `packageManager` (Corepack) — **install scripts blocked by default**;
+  allowlist via `pnpm.onlyBuiltDependencies` if ever needed (currently empty).
+- `pnpm-workspace.yaml` sets `minimumReleaseAge: 4320` — packages must be ≥3 days old
+  before pnpm will pick them up, dodging fresh-release compromises.
+- `pnpm-lock.yaml` committed; CI installs with `--frozen-lockfile`.
+- Runtime deps are just react, react-dom, leaflet, react-leaflet.
 
 ## Weekly auto-refresh — DISABLED (26 Jul 2026)
 
@@ -48,7 +42,7 @@ https://claude.ai/code/routines
 
 **TODO — restore auto-refresh for the Pages site.** Still manual: NParks closure
 notices (`TRAIL_ALERTS` + the notices list in `viewUpdates()`) and new-park entries
-(`NEW_PARKS` / `COMING_PARKS`) in `site.template.html`. Options when we get to it:
+(`NEW_PARKS` / `COMING_PARKS`) in `src/data.ts`. Options when we get to it:
 a GitHub Action on a weekly cron (mechanical parts only — it can't curate news), or
 re-enable the cloud routine repointed to commit to this repo via the GitHub API
 (needs a repo-scoped token in the routine env), or just ask Claude to refresh ad hoc
