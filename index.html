@@ -652,6 +652,7 @@ function initTrailMap(t){
   const el = document.getElementById("lmap");
   if(!el || typeof L === "undefined") return;
   LMAP = L.map(el);
+  LMAP.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
   const street = L.tileLayer("https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png", {
     minZoom: 11, maxZoom: 19,
     attribution: '<a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener">OneMap</a> © Singapore Land Authority'
