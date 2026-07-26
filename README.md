@@ -1,15 +1,25 @@
 # Jalan-Jalan
 
-Singapore park-connector / hawker / cheap-attractions web app, published as a private
-claude.ai artifact: https://claude.ai/code/artifact/c5a8cfbf-0921-42fa-bd1a-827dce4bd59e
+Singapore park-connector / hawker / cheap-attractions web app. Two builds from one codebase:
+
+1. **GitHub Pages site** (primary) — `index.html`, built from `site.template.html` by
+   `build_site.py`. Interactive Leaflet maps (OneMap street + Esri satellite tiles, live),
+   geolocation "you are here", per-trail KML export for Google My Maps, and hawker-cleaning
+   dates fetched live from data.gov.sg on page load (baked dates as offline fallback).
+2. **claude.ai artifact** (legacy, CSP-sandboxed — no external requests) —
+   https://claude.ai/code/artifact/c5a8cfbf-0921-42fa-bd1a-827dce4bd59e, built from
+   `template.html` by `build.py` with satellite crops baked in; refreshed weekly by cloud routine.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `template.html` | The full app source (HTML/CSS/JS) minus photos. The `/*__IMGS__*/` marker is where photos get baked in. **Edit this file** to change the app. |
-| `build.py` | Builds `app.html` from the template by base64-embedding photos. |
-| `app.html` | The built output — what actually gets published. Regenerate, don't edit. |
+| `site.template.html` | **Pages site source.** Edit this to change the site. `/*__IMGS__*/` marker gets photos baked in. |
+| `build_site.py` | Builds `index.html` from `site.template.html` (photos only; tiles are live). |
+| `index.html` | Built Pages output — what GitHub Pages serves. Regenerate, don't edit. |
+| `template.html` | Artifact app source (HTML/CSS/JS) minus photos, with baked-satellite trailMap. |
+| `build.py` | Builds `app.html` from `template.html` (photos + satellite crops embedded). |
+| `app.html` | Built artifact output. Regenerate, don't edit. |
 | `imgs/` `img_meta.json` | 12 trail photos (Wikimedia Commons, CC) + credits. |
 | `fimgs/` `fimg_meta.json` | 15 hawker-centre photos + credits. |
 | `mapbg/` `mapbg_meta.json` | 12 satellite map backgrounds (Esri World Imagery tiles, stitched + cropped) and their lat/lon bounds. |
