@@ -1,5 +1,5 @@
 import { GEO, type Trail } from "../data";
-import { routePoints } from "./maps";
+import { trailGeometry } from "./maps";
 
 function trailKML(t: Trail): string {
   const x = (s: string) =>
@@ -17,7 +17,7 @@ function trailKML(t: Trail): string {
     const g = GEO[stn + " MRT"];
     if (g) parts.push(pm(stn + " MRT", "mrt", g, "Station"));
   });
-  const pts = routePoints(t);
+  const pts = trailGeometry(t);
   if (pts.length > 1)
     parts.push(
       `<Placemark><name>${x(t.name)} route</name><styleUrl>#route</styleUrl><LineString><tessellate>1</tessellate><coordinates>${pts.map((p) => p[1] + "," + p[0] + ",0").join(" ")}</coordinates></LineString></Placemark>`

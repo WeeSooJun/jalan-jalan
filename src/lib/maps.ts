@@ -1,9 +1,16 @@
 import { GEO, ROUTES, type LatLng, type Trail } from "../data";
+import routesGeo from "../routes.json";
 
 export function routePoints(t: Trail): LatLng[] {
   return (ROUTES[t.id] || [])
     .map((p) => (typeof p === "string" ? GEO[p] : p))
     .filter(Boolean);
+}
+
+/** Real path geometry (BRouter-snapped, scripts/fetch_routes.py); falls back to waypoints. */
+export function trailGeometry(t: Trail): LatLng[] {
+  const geo = (routesGeo as unknown as Record<string, LatLng[]>)[t.id];
+  return geo && geo.length > 1 ? geo : routePoints(t);
 }
 
 export function gmapsSearchUrl(name: string): string {
