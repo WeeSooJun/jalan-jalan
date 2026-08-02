@@ -16,6 +16,13 @@ import { downloadKML } from "../lib/kml";
 import { foodPhoto } from "../lib/photos";
 import { flashCard } from "./bits";
 
+/**
+ * Route line + "you are here" marker color. Map tiles (OneMap/Esri) always render light,
+ * regardless of app theme, so this stays a fixed hex rather than var(--canopy) — which
+ * brightens to #3CB47E in dark mode and would lose contrast against the light tile imagery.
+ */
+const MAP_LINE_COLOR = "#0E6B45";
+
 interface Pin {
   name: string;
   cls: "f" | "s" | "m";
@@ -70,14 +77,14 @@ function LocateControl({ onError }: { onError: () => void }) {
       ring = L.circle(ev.latlng, {
         radius: ev.accuracy / 2,
         weight: 1,
-        color: "#1a73e8",
+        color: MAP_LINE_COLOR,
         fillOpacity: 0.08,
       }).addTo(map);
       me = L.circleMarker(ev.latlng, {
         radius: 7,
         weight: 2,
         color: "#fff",
-        fillColor: "#1a73e8",
+        fillColor: MAP_LINE_COLOR,
         fillOpacity: 1,
       }).addTo(map);
     };
@@ -136,7 +143,7 @@ export function TrailMap({ trail }: { trail: Trail }) {
             />
           </LayersControl.BaseLayer>
         </LayersControl>
-        <Polyline positions={line} pathOptions={{ color: "#0E6B45", weight: 4, opacity: 0.95 }} />
+        <Polyline positions={line} pathOptions={{ color: MAP_LINE_COLOR, weight: 4, opacity: 0.95 }} />
         {pins.map((p) => (
           <Marker key={p.cls + p.name} position={GEO[p.name]} icon={pinIcon(p.cls, p.label)} title={p.name}>
             <Popup maxWidth={240}>
@@ -172,10 +179,10 @@ export function TrailMap({ trail }: { trail: Trail }) {
         />
       </MapContainer>
       <div className="maplegend">
-        <span><span className="lg" style={{ background: "var(--canopy)" }} />route</span>
+        <span><span className="lg" style={{ background: MAP_LINE_COLOR }} />route</span>
         <span><span className="lg" style={{ background: "var(--amber)" }} />makan</span>
         <span><span className="lg" style={{ background: "var(--plum)" }} />worth a stop</span>
-        <span><span className="lg" style={{ background: "var(--muted)", borderRadius: 2 }} />MRT</span>
+        <span><span className="lg" style={{ background: "var(--mrt)", borderRadius: 2 }} />MRT</span>
       </div>
       <div className="mapactions">
         {dirUrl && (

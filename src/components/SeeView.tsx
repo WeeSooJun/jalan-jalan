@@ -6,7 +6,7 @@ export function SeeView({ query }: { query: string }) {
   const list = PLACES.filter(([n, a, c, note]) => !q || (n + a + c + note).toLowerCase().includes(q));
   return (
     <>
-      <div className="grid" style={{ marginTop: 20 }}>
+      <div className="grid section">
         {list.map(([n, area, cost, note]) => (
           <div className="card pcard" key={n}>
             <h3>{n}</h3>

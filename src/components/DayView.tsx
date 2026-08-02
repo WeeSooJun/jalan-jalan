@@ -72,7 +72,7 @@ export function DayView({
 
   return (
     <>
-      <div className="section" style={{ marginTop: 20 }}>
+      <div className="section">
         <p className="eyebrow trail">Trail</p>
         <select
           aria-label="Choose trail"
@@ -113,7 +113,7 @@ export function DayView({
                   <label htmlFor={`ck-${it.key}`}>
                     <b>{it.label}</b>
                     <br />
-                    <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>{it.sub}</span>
+                    <span className="sub">{it.sub}</span>
                   </label>
                 </li>
               ))}

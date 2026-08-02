@@ -44,6 +44,14 @@ typography:
     fontFamily: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace'
     fontSize: "0.85rem"
     fontWeight: 400
+  caption:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.85rem"
+    fontWeight: 400
+  micro:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.75rem"
+    fontWeight: 400
 rounded:
   sm: "4px"
   md: "8px"
@@ -163,7 +171,9 @@ A green-tinted paper ground carrying three semantic accents — each hue is a co
 - **Headline** (700, clamp(1.4rem, 4vw, 1.8rem), `text-wrap: balance`): trail detail titles.
 - **Title** (700, 1.05rem, 0.01em tracking, balanced): card headings.
 - **Body** (400, 1rem, 1.55 line-height): prose, blurbs, stop descriptions.
+- **Caption** (400, ~0.85–0.9rem, body stack): the step below Body — chip and pill text, sub-lines under titles, alert and tips copy, stat-panel prose.
 - **Label** (700, 0.72rem, 0.14em tracking, UPPERCASE): section eyebrows — hue-coded to their content lane (trail green, food amber, sight plum).
+- **Micro** (400, ~0.68–0.78rem, family follows content): the smallest step — photo credits, map legends and notes, station pills, and (in mono where the content is a number) cost tags and as-of stamps. Prose instances stay in the body stack; numeric instances stay mono per the Measured-Voice Rule. Eyebrows' 0.72rem sits in this same band but is documented separately as Label.
 
 ### Named Rules
 **The Measured-Voice Rule.** Every number the user might compare — kilometres, prices, dates, times, progress counts — is set in the mono stack with `font-variant-numeric: tabular-nums`. The big km stat is mono 700 at 1.5rem; costs and schedules run 0.78–0.85rem. Prose never carries data styling; data never wears prose type.
@@ -190,6 +200,8 @@ Paper on a table. Structure comes from 1px Hairline borders and tonal steps (Pap
 Softly rounded, sturdy, never bubbly. Four radius tiers, each with a fixed job: **4px** for small data tags (cost tags, pills, as-of stamps), **8px** for interactive surfaces (buttons, inputs, tabs, stop rows, the map itself), **10px** for containers (cards, map frame), **999px** for chips, station lozenges, and dots.
 
 The signature form is the **left accent bar**: a 3px border-left in the content hue marks stop rows, food/sight cards, and alerts — the field guide's margin stripe. Map markers are 22px circles with a 2px white ring; MRT markers square off to 5px radius to read as stations. Card photos bleed to the card edge (negative margin) with the card's top radius, keeping images inside the paper metaphor.
+
+An element nested flush inside a rounded container derives its own radius as (container radius − border width) rather than picking a tier off the scale, so the inner corner still lands concentric with the outer one — e.g. the card-photo radius is 9px because it sits inside a 10px card with a 1px border.
 
 ## Components
 

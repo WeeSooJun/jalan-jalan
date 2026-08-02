@@ -52,7 +52,7 @@ export function UpdatesView({ clean, asof }: { clean: Record<string, string>; as
             </span>
           </li>
         </ul>
-        <p className="eyebrow food" style={{ marginTop: 18 }}>Upcoming cleaning days (app's centres)</p>
+        <p className="eyebrow food second">Upcoming cleaning days (app's centres)</p>
         <div className="tablewrap">
           <table className="sched">
             <tbody>
@@ -63,7 +63,7 @@ export function UpdatesView({ clean, asof }: { clean: Record<string, string>; as
             </tbody>
           </table>
         </div>
-        <p className="blurb" style={{ marginTop: 8 }}>
+        <p className="blurb aside">
           Seah Im Food Centre and privately-run spots (Kim San Leng, Kopitiam outlets, cafés) aren't
           in the NEA dataset — check on site.
         </p>
@@ -76,25 +76,25 @@ export function UpdatesView({ clean, asof }: { clean: Record<string, string>; as
             <li className="stop s" key={n}>
               <CostPill cost={cost} />
               <b>
-                {n} <span style={{ fontWeight: 400, color: "var(--muted)" }}>· opened {when}</span>
+                {n} <span className="suffix">· opened {when}</span>
               </b>
               <span className="sub">{note}</span>
               <MapsLinks name={n} />
             </li>
           ))}
         </ul>
-        <p className="eyebrow sight" style={{ marginTop: 18 }}>Coming up</p>
+        <p className="eyebrow sight second">Coming up</p>
         <ul className="stops">
           {COMING_PARKS.map(([n, when, note]) => (
             <li className="stop" key={n}>
               <b>
-                {n} <span style={{ fontWeight: 400, color: "var(--muted)" }}>· {when}</span>
+                {n} <span className="suffix">· {when}</span>
               </b>
               <span className="sub">{note}</span>
             </li>
           ))}
         </ul>
-        <p className="blurb" style={{ marginTop: 8 }}>
+        <p className="blurb aside">
           NParks target: 25+ new parks and 50 km of new park connectors by 2030.
         </p>
       </div>

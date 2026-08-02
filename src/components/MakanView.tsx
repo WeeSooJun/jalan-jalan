@@ -46,7 +46,7 @@ export function MakanView({
               <h3>{r.n}</h3>
               <span className="meta">
                 <span className="pill">{r.ty}</span>
-                <span className="pill">{r.pr}</span>
+                <span className="pill price">{r.pr}</span>
               </span>
               <p className="blurb">{r.note}</p>
               <CleanNote name={r.n} clean={clean} />
