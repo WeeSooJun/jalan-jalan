@@ -105,13 +105,14 @@ function TrailDetail({
 }
 
 export function TrailsView({
-  query, region, setRegion, detail, setDetail, walked, setWalked, clean,
+  query, region, setRegion, detail, onOpen, onBack, walked, setWalked, clean,
 }: {
   query: string;
   region: string;
   setRegion: (r: string) => void;
-  detail: string | null;
-  setDetail: (id: string | null) => void;
+  detail?: string;
+  onOpen: (id: string) => void;
+  onBack: () => void;
   walked: string[];
   setWalked: (w: string[]) => void;
   clean: Record<string, string>;
@@ -123,7 +124,7 @@ export function TrailsView({
         t={t}
         walked={walked.includes(t.id)}
         clean={clean}
-        onBack={() => setDetail(null)}
+        onBack={onBack}
         onToggleWalked={() =>
           setWalked(walked.includes(t.id) ? walked.filter((x) => x !== t.id) : [...walked, t.id])
         }
@@ -146,10 +147,7 @@ export function TrailsView({
             key={x.id}
             t={x}
             walked={walked.includes(x.id)}
-            onOpen={() => {
-              setDetail(x.id);
-              window.scrollTo({ top: 0 });
-            }}
+            onOpen={() => onOpen(x.id)}
           />
         ))}
       </div>

@@ -61,7 +61,7 @@
   .search{width:100%;margin:14px 0 0;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
 
   nav.tabs{position:sticky;top:0;z-index:5;display:flex;gap:3px;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line)}
-  .tab{flex:1;min-height:32px;padding:9px 2px;border:none;border-radius:8px;background:transparent;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:.84rem;letter-spacing:.02em}
+  .tab{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;min-height:32px;padding:9px 2px;border:none;border-radius:8px;background:transparent;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:.84rem;letter-spacing:.02em}
   .tab[aria-current="page"]{background:var(--canopy);color:#fff}
   @media (prefers-color-scheme: dark){ .tab[aria-current="page"]{color:#0E1512} }
   :root[data-theme="dark"] .tab[aria-current="page"]{color:#0E1512}
