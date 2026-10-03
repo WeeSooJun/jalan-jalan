@@ -13,6 +13,7 @@ corepack pnpm install            # frozen by CI; install scripts are blocked by 
 corepack pnpm dev
 corepack pnpm build              # tsc typecheck + vite build → dist/
 python3 scripts/fetch_routes.py  # regenerate src/routes.json (only when ROUTES waypoints change)
+python3 scripts/refresh_clean.py # re-bake NEA cleaning fallback (also runs weekly via Action)
 ```
 
 There is no test suite. Verification = `corepack pnpm build` passing + eyeballing `corepack pnpm dev`.
@@ -45,9 +46,10 @@ Push to `main` → `.github/workflows/deploy.yml` builds with `--frozen-lockfile
 - **No page-jump on pin tap.** Marker taps must not scroll the page (the old tap-to-scroll behaviour was hated on mobile). Popups link down via the "Details ↓" anchor instead.
 - **Popups over panels.** Owner prefers info in map popups (photo, price, external links) over anything that moves the viewport.
 - Leaflet's default attribution prefix includes a flag emoji; it's stripped via `attributionControl.setPrefix` in TrailMap.tsx — keep that if touching attribution.
-- data.gov.sg datastore_search sends CORS `*`, so the NEA fetch works client-side; if it ever breaks, the app silently falls back to `CLEAN_BAKED` in data.ts (update `DATA_ASOF` when refreshing it).
+- data.gov.sg datastore_search sends CORS `*`, so the NEA fetch works client-side; if it ever breaks, the app silently falls back to `CLEAN_BAKED` in data.ts. `CLEAN_BAKED`/`CLEAN_ASOF` are rewritten weekly by `.github/workflows/refresh-clean.yml` → `scripts/refresh_clean.py` (formatting mirrors `parseCleanRecords()` in clean.ts — change both together; centre matching is shared via `src/clean_match.json`). `DATA_ASOF` dates the hand-curated notices only; never let automation bump it.
+- Pushes made with the workflow `GITHUB_TOKEN` don't trigger other workflows — that's why refresh-clean.yml calls `gh workflow run deploy.yml` explicitly.
 
 ## Pending / roadmap
 
 - **Street view**: embedding real Google Street View needs the Maps JS API + billing key (against the keyless architecture). Keyless alternative: per-point pano links `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=<lat>,<lon>` in popups.
-- Restore weekly auto-refresh of curated data blocks (see README "Weekly auto-refresh" section for options).
+- Curated notices/parks are manual by owner choice (see README "Weekly auto-refresh"); refresh ad hoc when asked.

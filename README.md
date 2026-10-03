@@ -33,24 +33,30 @@ corepack pnpm build     # typecheck + production build to dist/
 - `pnpm-lock.yaml` committed; CI installs with `--frozen-lockfile`.
 - Runtime deps are just react, react-dom, leaflet, react-leaflet.
 
-## Weekly auto-refresh — DISABLED (26 Jul 2026)
+## Weekly auto-refresh
 
-Cloud routine `trig_01TPJ8aCTu7wkEoiPzAcA37r` (was Fridays ~07:07 SGT, refreshed the
-claude.ai artifact) is **disabled** — the Pages site fetches NEA cleaning dates live
-client-side, which was the routine's main job. Manage/delete/re-enable:
-https://claude.ai/code/routines
+**On (GitHub Action, since 3 Oct 2026):** `.github/workflows/refresh-clean.yml` runs Thursdays
+06:00 SGT (or by hand: Actions → "Refresh hawker cleaning fallback" → Run workflow). It runs
+`scripts/refresh_clean.py`, which re-bakes the NEA cleaning-date fallback (`CLEAN_BAKED` +
+`CLEAN_ASOF` in `src/data.ts`) from data.gov.sg, commits only when dates changed, then starts
+the Pages deploy. The live site already fetches these dates client-side; this keeps the
+offline/API-down fallback honest.
 
-**TODO — restore auto-refresh for the Pages site.** Still manual: NParks closure
-notices (`TRAIL_ALERTS` + the notices list in `viewUpdates()`) and new-park entries
-(`NEW_PARKS` / `COMING_PARKS`) in `src/data.ts`. Options when we get to it:
-a GitHub Action on a weekly cron (mechanical parts only — it can't curate news), or
-re-enable the cloud routine repointed to commit to this repo via the GitHub API
-(needs a repo-scoped token in the routine env), or just ask Claude to refresh ad hoc
-before a hiking weekend.
+- If data.gov.sg is down or its shape changes, the script exits non-zero and `data.ts` is left
+  alone; you'll get a failed-run email from GitHub.
+- GitHub disables scheduled workflows in public repos after 60 days without repo activity, and
+  emails a warning first. Re-enable from the Actions tab.
+- The centre-name matching list lives in `src/clean_match.json`, shared by the app and the script.
 
-⚠ If the routine is ever re-enabled as-is: it carries an embedded copy of
-`template.html` and republishes the *artifact* — it knows nothing about this repo,
-and its template copy goes stale the moment `template.html` changes here.
+**Still manual (by choice):** curated notices — `TRAIL_ALERTS`, `TRAIL_NOTICES`,
+`HAWKER_CLOSURES`, `NEW_PARKS`, `COMING_PARKS` — dated by `DATA_ASOF`, which automation never
+touches. Ask Claude to refresh them ad hoc before a hiking weekend. To automate them later:
+a scheduled GitHub Action running Claude (`claude-code-action`, needs an `ANTHROPIC_API_KEY`
+secret, billed per run), or the cloud routine below rewritten for this repo — either way it
+should open a PR for review, never commit straight to `main` (scraped pages can carry
+injected instructions, and an LLM can invent dates). The old routine
+`trig_01TPJ8aCTu7wkEoiPzAcA37r` stays **disabled**: it republishes the old claude.ai artifact
+and knows nothing about this repo.
 
 ## Data sources
 

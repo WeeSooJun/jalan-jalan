@@ -77,22 +77,26 @@ export const ROUTES: Record<string, (string | LatLng)[]> = {
  sentosa:["Labrador Park MRT","Berlayer Creek",[1.2645,103.818],"Food Republic, VivoCity",[1.259,103.819],"Fort Siloso + Skywalk","Sentosa beaches"]
 };
 
-// Baked fallback — overridden live from data.gov.sg at runtime (see lib/clean.ts)
+// Baked fallback — overridden live from data.gov.sg at runtime (see lib/clean.ts).
+// CLEAN_ASOF + CLEAN_BAKED are rewritten weekly by scripts/refresh_clean.py (GitHub Action);
+// keep both declarations' shape intact or the script will refuse to run.
+export const CLEAN_ASOF = "3 Oct 2026";
 export const CLEAN_BAKED: Record<string, string> = {
-  "Adam Road Food Centre":"7 Sep · 7–8 Dec",
-  "Bedok 85 Fengshan":"28 Sep–2 Oct · 28–29 Dec",
-  "Boon Lay Place Food Village":"21–22 Sep · 30 Nov–3 Dec",
-  "Changi Village Hawker Centre":"Q4 TBC · repairs & redecoration from 1 Oct 2026",
+  "Adam Road Food Centre":"7–8 Dec",
+  "Bedok 85 Fengshan":"28–29 Dec",
+  "Boon Lay Place Food Village":"30 Nov–3 Dec",
+  "Changi Village Hawker Centre":"Q4 TBC · repairs and redecoration from 1 Oct",
   "East Coast Lagoon Food Village":"12–14 Oct",
-  "ABC Brickworks Market":"28–29 Sep · 14–15 Dec",
-  "Old Airport Road Food Centre":"28 Sep–1 Oct · 7–10 Dec",
-  "Pasir Panjang Food Centre":"24–25 Aug · 23 Nov",
-  "Pasir Ris Central Hawker Centre":"17–18 Aug · 16–18 Nov",
-  "Taman Jurong Market & Food Centre":"31 Aug–2 Sep · 30 Nov–1 Dec",
-  "Tampines Round Market":"28–30 Sep · 14–16 Dec",
-  "Chong Pang Market & Food Centre":"14–17 Sep · 16–17 Nov"
+  "ABC Brickworks Market":"14–15 Dec",
+  "Old Airport Road Food Centre":"7–10 Dec",
+  "Pasir Panjang Food Centre":"23 Nov",
+  "Pasir Ris Central Hawker Centre":"16–18 Nov",
+  "Taman Jurong Market & Food Centre":"30 Nov–1 Dec",
+  "Tampines Round Market":"14–16 Dec",
+  "Chong Pang Market & Food Centre":"16–17 Nov"
 };
 
+/** Date the hand-curated notices/parks below were last checked. Not touched by automation. */
 export const DATA_ASOF = "25 Jul 2026";
 
 export const TRAIL_ALERTS: Record<string, string> = {

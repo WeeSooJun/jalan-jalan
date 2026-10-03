@@ -1,23 +1,11 @@
 import { useEffect, useState } from "react";
-import { CLEAN_BAKED, DATA_ASOF } from "../data";
+import { CLEAN_ASOF, CLEAN_BAKED } from "../data";
+import MATCH_JSON from "../clean_match.json";
 
 const RESOURCE = "b80cb643-a732-480d-86b5-e03957bc82aa";
 
-const MATCH: [string, string][] = [
-  ["adam road", "Adam Road Food Centre"],
-  ["85 fengshan", "Bedok 85 Fengshan"],
-  ["boon lay place", "Boon Lay Place Food Village"],
-  ["changi village", "Changi Village Hawker Centre"],
-  ["east coast lagoon", "East Coast Lagoon Food Village"],
-  ["abc brickworks", "ABC Brickworks Market"],
-  ["old airport road", "Old Airport Road Food Centre"],
-  ["pasir panjang food", "Pasir Panjang Food Centre"],
-  ["pasir ris central", "Pasir Ris Central Hawker Centre"],
-  ["taman jurong", "Taman Jurong Market & Food Centre"],
-  ["tampines street 11", "Tampines Round Market"],
-  ["tampines round", "Tampines Round Market"],
-  ["chong pang", "Chong Pang Market & Food Centre"],
-];
+/** NEA name substring → app centre name. Shared with scripts/refresh_clean.py. */
+const MATCH = MATCH_JSON as [string, string][];
 
 const MO = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -91,5 +79,5 @@ export function useCleanDates() {
       cancelled = true;
     };
   }, []);
-  return { clean, live, asof: live ? "live from data.gov.sg (just now)" : DATA_ASOF + " (baked fallback)" };
+  return { clean, live, asof: live ? "live from data.gov.sg (just now)" : CLEAN_ASOF + " (baked fallback)" };
 }

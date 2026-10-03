@@ -1,0 +1,39 @@
+name: Refresh hawker cleaning fallback
+
+# Weekly: re-bake the NEA cleaning-date fallback (CLEAN_BAKED/CLEAN_ASOF in src/data.ts)
+# from data.gov.sg, commit only if it changed, then redeploy. Curated notices are NOT touched.
+on:
+  schedule:
+    - cron: "0 22 * * 3" # Wed 22:00 UTC = Thu 06:00 SGT, ahead of weekend planning
+  workflow_dispatch:
+
+permissions:
+  contents: write # push the data commit
+  actions: write # start deploy.yml (pushes made with GITHUB_TOKEN don't trigger workflows)
+
+concurrency:
+  group: refresh-clean
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Re-bake cleaning dates
+        run: python3 scripts/refresh_clean.py
+
+      - name: Commit and redeploy if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- src/data.ts; then
+            echo "No change — nothing to deploy."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Refresh NEA cleaning-date fallback ($(TZ=Asia/Singapore date +%-d\ %b\ %Y))"
+          git push
+          gh workflow run deploy.yml --ref main
