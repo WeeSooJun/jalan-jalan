@@ -100,6 +100,18 @@ export const TRAIL_ALERTS: Record<string, string> = {
   kallang:"A section of Kallang Park Connector is closed for construction — alternative path signposted. Check NParks noticeboard."
 };
 
+/** Updates tab: [title, detail]. */
+export const TRAIL_NOTICES: [string, string][] = [
+  ["Rail Corridor (South): Henderson Rd → Spooner Rd closed","Trail improvement works Phase 2, until ~31 Jul 2027. The Central stretch featured in this app is open."],
+  ["Kallang Park Connector: section closed","Construction works on part of the Bishan → Marina route; alternative path signposted on site."],
+  ["one-north Park: section closed","Enhancement works 2 Jun 2026 – 31 Mar 2027; alternative path available."]
+];
+
+export const HAWKER_CLOSURES: [string, string][] = [
+  ["Bukit Timah Market & Food Centre — closed till ~2029","Full redevelopment since Oct 2024. Beauty World Centre Food Centre is the nearby stand-in."],
+  ["Changi Village Hawker Centre — repairs from 1 Oct 2026","Repairs & redecoration begin 1 Oct 2026; expect partial or full closure. Check before the East Coast → Changi walk."]
+];
+
 export const NEW_PARKS: [string, string, string, string][] = [
   ["Nature Immersion Trail, Botanic Gardens","Jun 2026","Free","Asia's first certified nature-immersion trail at Saraca Stream — slow, self-guided, deliberately quiet."],
   ["Bulim Park","Jan 2026","Free","Jurong West's new 14-football-field park: 3-storey sheltered playground, nets, Sky Corridor."],

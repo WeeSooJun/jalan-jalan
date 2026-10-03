@@ -49,13 +49,12 @@ export default function App() {
         />
       </header>
 
-      <nav className="tabs" role="tablist" aria-label="Sections">
+      <nav className="tabs" aria-label="Sections">
         {VIEWS.map(([id, label]) => (
           <button
             key={id}
             className="tab"
-            role="tab"
-            aria-selected={view === id}
+            aria-current={view === id ? "page" : undefined}
             onClick={() => {
               setView(id);
               setDetail(null);

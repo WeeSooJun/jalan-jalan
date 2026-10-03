@@ -21,7 +21,6 @@ export function foodPhoto(name: string): string | null {
   return m ? `${base}fimgs/c_${m.file}.jpg` : null;
 }
 
-export function foodCreditTitle(name: string): string {
-  const m = FOOD_META[name];
-  return m ? `Photo: ${m.artist || "Wikimedia Commons"} · ${m.license}` : "";
+export function foodCredit(name: string): PhotoCredit | undefined {
+  return FOOD_META[name];
 }

@@ -122,6 +122,7 @@ export function DayView({
           <div className="section">
             <p className="eyebrow trail">Notes</p>
             <textarea
+              aria-label="Notes"
               placeholder="Meet who, what time, bring what…"
               value={plan.note}
               onChange={(e) => setPlan({ ...plan, note: e.target.value })}

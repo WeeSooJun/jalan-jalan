@@ -1,6 +1,6 @@
 import { TRAILS } from "../data";
-import { foodCreditTitle, foodPhoto } from "../lib/photos";
-import { CleanNote, MapsLinks } from "./bits";
+import { foodCredit, foodPhoto } from "../lib/photos";
+import { CleanNote, Credit, MapsLinks } from "./bits";
 
 const TYPES = ["all", "hawker", "cafe", "seafood", "restaurant"];
 
@@ -40,9 +40,11 @@ export function MakanView({
       <div className="grid">
         {list.map((r) => {
           const img = foodPhoto(r.n);
+          const cr = foodCredit(r.n);
           return (
             <div className="card fcard" key={r.n}>
-              {img && <img className="photo" src={img} alt="" loading="lazy" title={foodCreditTitle(r.n)} />}
+              {img && <img className="photo" src={img} alt="" loading="lazy" />}
+              {img && cr && <Credit cr={cr} />}
               <h3>{r.n}</h3>
               <span className="meta">
                 <span className="pill">{r.ty}</span>
@@ -58,10 +60,7 @@ export function MakanView({
       </div>
       {!list.length && <p className="empty">Nothing matches lah. Widen the filter.</p>}
       <p className="asof">🧹 cleaning dates: NEA via data.gov.sg, as of {asof}</p>
-      <p className="credit">
-        Photos: Wikimedia Commons contributors (hover a photo for credit) — no photo? Use its Map +
-        photos link.
-      </p>
+      <p className="credit">No photo? Use its Map + photos link.</p>
     </>
   );
 }

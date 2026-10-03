@@ -1,5 +1,21 @@
 import { LINE } from "../data";
 import { appleMapsUrl, gmapsSearchUrl } from "../lib/maps";
+import type { PhotoCredit } from "../lib/photos";
+
+export const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+/** Visible CC credit line — required wherever a Wikimedia photo is shown. */
+export function Credit({ cr }: { cr: PhotoCredit }) {
+  return (
+    <p className="credit">
+      Photo:{" "}
+      <a href={cr.page} target="_blank" rel="noopener noreferrer">
+        {cr.artist || "Wikimedia Commons"}
+      </a>{" "}
+      · {cr.license}
+    </p>
+  );
+}
 
 export function MrtChips({ mrt }: { mrt: [string, string[]][] }) {
   return (
@@ -42,7 +58,7 @@ export function MapsLinks({ name }: { name: string }) {
 export function flashCard(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "center" });
+  el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "center" });
   el.classList.add("flash");
   setTimeout(() => el.classList.remove("flash"), 1600);
 }

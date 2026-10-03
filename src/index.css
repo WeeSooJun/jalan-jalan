@@ -1,12 +1,15 @@
   :root{
     --bg:#F4F6F2; --card:#FFFFFF; --ink:#1A241E; --muted:#5C6A61; --line:#DDE4DC;
     --canopy:#0E6B45; --canopy-soft:#E3EFE7; --canopy-ink:#0A4F34;
-    --amber:#B86E14; --amber-soft:#F6ECDB;
+    --amber:#B86E14; --amber-soft:#F6ECDB; --amber-ink:#955710;
     --plum:#7C4FA0; --plum-soft:#EFE7F5;
     --chip:#EAEFE8; --shadow:0 1px 2px rgba(20,35,26,.08),0 4px 14px rgba(20,35,26,.06);
     /* MRT station marker: sits on the map's light tile pane like the route line, so it stays
        one fixed value across themes rather than brightening in dark mode. */
     --mrt:#3A4A40;
+    /* Map pins sit on the same always-light tiles, so they keep fixed fills that hold white
+       numerals at ≥4.5:1 in both themes (themed --amber would drop to 2.3:1 in dark mode). */
+    --pin-f:#955710; --pin-s:#7C4FA0;
     --disp:Futura,"Century Gothic","Avenir Next","Trebuchet MS",ui-sans-serif,sans-serif;
     --body:Seravek,"Segoe UI",system-ui,-apple-system,sans-serif;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
@@ -15,7 +18,7 @@
     :root{
       --bg:#101613; --card:#18211C; --ink:#E6EDE7; --muted:#93A398; --line:#2A362E;
       --canopy:#3CB47E; --canopy-soft:#162920; --canopy-ink:#8FD8B4;
-      --amber:#E0A04A; --amber-soft:#2A2416;
+      --amber:#E0A04A; --amber-soft:#2A2416; --amber-ink:#E0A04A;
       --plum:#B48BD6; --plum-soft:#271F30;
       --chip:#222D26; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
       --mrt:#3A4A40;
@@ -24,7 +27,7 @@
   :root[data-theme="dark"]{
     --bg:#101613; --card:#18211C; --ink:#E6EDE7; --muted:#93A398; --line:#2A362E;
     --canopy:#3CB47E; --canopy-soft:#162920; --canopy-ink:#8FD8B4;
-    --amber:#E0A04A; --amber-soft:#2A2416;
+    --amber:#E0A04A; --amber-soft:#2A2416; --amber-ink:#E0A04A;
     --plum:#B48BD6; --plum-soft:#271F30;
     --chip:#222D26; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
     --mrt:#3A4A40;
@@ -32,7 +35,7 @@
   :root[data-theme="light"]{
     --bg:#F4F6F2; --card:#FFFFFF; --ink:#1A241E; --muted:#5C6A61; --line:#DDE4DC;
     --canopy:#0E6B45; --canopy-soft:#E3EFE7; --canopy-ink:#0A4F34;
-    --amber:#B86E14; --amber-soft:#F6ECDB;
+    --amber:#B86E14; --amber-soft:#F6ECDB; --amber-ink:#955710;
     --plum:#7C4FA0; --plum-soft:#EFE7F5;
     --chip:#EAEFE8; --shadow:0 1px 2px rgba(20,35,26,.08),0 4px 14px rgba(20,35,26,.06);
     --mrt:#3A4A40;
@@ -59,10 +62,10 @@
 
   nav.tabs{position:sticky;top:0;z-index:5;display:flex;gap:3px;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line)}
   .tab{flex:1;min-height:32px;padding:9px 2px;border:none;border-radius:8px;background:transparent;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:.84rem;letter-spacing:.02em}
-  .tab[aria-selected="true"]{background:var(--canopy);color:#fff}
-  @media (prefers-color-scheme: dark){ .tab[aria-selected="true"]{color:#0E1512} }
-  :root[data-theme="dark"] .tab[aria-selected="true"]{color:#0E1512}
-  :root[data-theme="light"] .tab[aria-selected="true"]{color:#fff}
+  .tab[aria-current="page"]{background:var(--canopy);color:#fff}
+  @media (prefers-color-scheme: dark){ .tab[aria-current="page"]{color:#0E1512} }
+  :root[data-theme="dark"] .tab[aria-current="page"]{color:#0E1512}
+  :root[data-theme="light"] .tab[aria-current="page"]{color:#fff}
 
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
   .chip{display:inline-flex;align-items:center;min-height:32px;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:.85rem}
@@ -86,7 +89,7 @@
   .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:.75rem;color:var(--muted)}
   .pill{border-radius:4px;padding:1px 7px;background:var(--chip);white-space:nowrap}
   .pill.walked{background:var(--canopy-soft);color:var(--canopy-ink);font-weight:600}
-  .pill.warn{background:var(--amber-soft);color:var(--amber);font-weight:600}
+  .pill.warn{background:var(--amber-soft);color:var(--amber-ink);font-weight:600}
   .pill.price{font-family:var(--mono);font-variant-numeric:tabular-nums}
   .blurb{font-size:.88rem;color:var(--muted);margin:0}
   .blurb.aside{margin-top:8px}
@@ -94,7 +97,7 @@
 
   .mrt{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
   .stn{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;background:var(--chip);border-radius:999px;padding:2px 9px 2px 4px}
-  .dot{width:14px;height:14px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;color:#fff;font-family:var(--mono)}
+  .dot{width:18px;height:18px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:#fff;font-family:var(--mono)}
 
   .back{background:none;border:none;color:var(--canopy);font-weight:600;padding:8px 0;margin-top:10px;display:inline-flex;gap:6px;align-items:center}
   .detail h2{font-family:var(--disp);font-size:clamp(1.4rem,4vw,1.8rem);margin:6px 0 2px;text-wrap:balance}
@@ -102,7 +105,7 @@
   .statline b{color:var(--ink);font-size:1.05rem}
   .section{margin-top:22px}
   .eyebrow{font-family:var(--disp);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px}
-  .eyebrow.food{color:var(--amber)} .eyebrow.sight{color:var(--plum)} .eyebrow.trail{color:var(--canopy)}
+  .eyebrow.food{color:var(--amber-ink)} .eyebrow.sight{color:var(--plum)} .eyebrow.trail{color:var(--canopy)}
   .eyebrow.second{margin-top:16px}
   ul.stops{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
   .stop{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
@@ -115,7 +118,7 @@
   .maplink:hover{border-color:var(--canopy)}
   .mapactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .maplink.big{display:inline-flex;align-items:center;min-height:32px;font-size:.85rem;font-weight:600;padding:6px 13px;color:var(--canopy);cursor:pointer;font-family:inherit}
-  .clean{display:block;font-size:.78rem;color:var(--amber);margin-top:3px}
+  .clean{display:block;font-size:.78rem;color:var(--amber-ink);margin-top:3px}
   .alert{background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:.88rem;margin:12px 0 0}
   .tips{background:var(--canopy-soft);border-radius:8px;padding:12px 16px;font-size:.9rem;color:var(--canopy-ink)}
   .walkbtn{margin-top:20px;border:1px solid var(--canopy);border-radius:8px;background:transparent;color:var(--canopy);padding:9px 18px;font-weight:600}
@@ -133,9 +136,10 @@
   .links li{margin-bottom:4px}
   .asof{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.75rem;color:var(--muted);background:var(--chip);border-radius:4px;padding:2px 8px;display:inline-block;margin:14px 0 0}
   table.sched{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
-  .sched th{text-align:left;font-family:var(--disp);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+  .sched th{text-align:left;font-family:var(--disp);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
   .sched td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-  .sched td:last-child{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.8rem;white-space:nowrap}
+  .sched td:first-child{width:45%}
+  .sched td:last-child{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.8rem}
   .tablewrap{overflow-x:auto}
 
   .mapbox{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-top:14px;padding:8px}
@@ -144,7 +148,10 @@
   .lg{width:10px;height:10px;border-radius:999px;display:inline-block}
   .mapnote{font-size:.68rem;color:var(--muted);margin:4px 0 0;padding:0 8px 4px}
   .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:999px;color:#fff;font-family:var(--mono);font-size:.68rem;font-weight:700;margin-right:8px}
-  .badge.f{background:var(--amber)} .badge.s{background:var(--plum)}
+  .badge.f{background:var(--amber-ink)} .badge.s{background:var(--plum)}
+  @media (prefers-color-scheme: dark){ .badge{color:#0E1512} }
+  :root[data-theme="dark"] .badge{color:#0E1512}
+  :root[data-theme="light"] .badge{color:#fff}
   .stop.flash{outline:2px solid var(--canopy)}
 
   select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
@@ -169,11 +176,13 @@
   .leaflet-popup-close-button{color:var(--muted)}
   .popcost{float:right;font:600 .75rem var(--mono);font-variant-numeric:tabular-nums;background:var(--chip);color:var(--ink);border-radius:4px;padding:1px 6px;margin-left:6px}
   .popsub{font-size:.8rem;color:var(--muted);margin:4px 0}
-  .poplinks{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 0;font-size:.82rem}
+  .poplinks{display:flex;gap:4px 12px;flex-wrap:wrap;margin:4px 0 0;font-size:.82rem}
+  .poplinks a{display:inline-flex;align-items:center;min-height:32px}
+  .pop .credit{margin:0}
   .leaflet-popup-content{margin:10px 12px}
   .lmk{display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;color:#fff;font:700 10px var(--mono);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}
-  .lmk.f{background:var(--amber)} .lmk.s{background:var(--plum)}
-  .lmk.m{background:var(--mrt);border-radius:5px;font-size:8px}
+  .lmk.f{background:var(--pin-f)} .lmk.s{background:var(--pin-s)}
+  .lmk.m{background:var(--mrt);border-radius:5px}
   /* Sits on the map's tile pane, which is always light regardless of app theme — like
      Leaflet's own zoom control, this button is intentionally left unthemed. */
   .locbtn{width:34px;height:32px;background:#fff;color:#000;border:2px solid rgba(0,0,0,.25);border-radius:8px;font-size:16px;line-height:1;cursor:pointer}

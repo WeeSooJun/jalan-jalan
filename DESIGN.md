@@ -7,6 +7,7 @@ colors:
   canopy-ink: "#0A4F34"
   amber: "#B86E14"
   amber-soft: "#F6ECDB"
+  amber-ink: "#955710"
   plum: "#7C4FA0"
   plum-soft: "#EFE7F5"
   bg: "#F4F6F2"
@@ -15,6 +16,14 @@ colors:
   muted: "#5C6A61"
   line: "#DDE4DC"
   chip: "#EAEFE8"
+  mrt: "#3A4A40"
+  pin-food: "#955710"
+  pin-sight: "#7C4FA0"
+  on-bright-fill: "#0E1512"
+  marker-shadow: "rgba(0,0,0,.45)"
+  map-control: "#FFFFFF"
+  map-control-ink: "#000"
+  map-control-border: "rgba(0,0,0,.25)"
 typography:
   display:
     fontFamily: 'Futura, "Century Gothic", "Avenir Next", "Trebuchet MS", ui-sans-serif, sans-serif'
@@ -44,17 +53,47 @@ typography:
     fontFamily: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace'
     fontSize: "0.85rem"
     fontWeight: 400
+  stat:
+    fontFamily: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace'
+    fontSize: "1.5rem"
+    fontWeight: 700
+  lede:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.95rem"
+    fontWeight: 400
   caption:
     fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
     fontSize: "0.85rem"
+    fontWeight: 400
+  caption-lg:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.9rem"
+    fontWeight: 400
+  popup-title:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.92rem"
+    fontWeight: 700
+  small:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.8rem"
     fontWeight: 400
   micro:
     fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
     fontSize: "0.75rem"
     fontWeight: 400
+  credit:
+    fontFamily: 'Seravek, "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontSize: "0.68rem"
+    fontWeight: 400
+  dot:
+    fontFamily: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace'
+    fontSize: "0.6rem"
+    fontWeight: 800
 rounded:
   sm: "4px"
   md: "8px"
+  station: "5px"
+  photo-inset: "9px"
   lg: "10px"
   full: "999px"
 spacing:
@@ -115,7 +154,7 @@ components:
 
 Jalan-Jalan looks like a pocket nature field guide you'd carry under the trees: calm green light, precise monospace data callouts, warm but never fussy. The mood is calm, practical, and sunlit — the interface is built to be read at arm's length in Singapore glare with one sweaty thumb, so personality is carried by disciplined color coding and data typography, not by decoration. Every hue means something: green is the trail and the app's own voice, amber is makan, plum is sights. Nothing glows, spins, or gamifies.
 
-The whole system runs on system font stacks and thirteen CSS custom properties per theme, defined once in `src/index.css` (`:root` for light, mirrored for dark via `prefers-color-scheme` and `data-theme`). That file is the normative source; there is no Tailwind, no theme framework, no webfont request.
+The whole system runs on system font stacks and a small set of CSS custom properties (fourteen themed per theme, plus three fixed map-pin fills), defined once in `src/index.css` (`:root` for light, mirrored for dark via `prefers-color-scheme` and `data-theme`). That file is the normative source; there is no Tailwind, no theme framework, no webfont request.
 
 Confirmed anti-references — what this app must never resemble: a food-blog listicle (ad-cluttered, hero-image-padded), a fitness-app dashboard (gradient stat rings, streaks, dark glass), or a government portal (bureaucratic forms, crests, dense officialdom).
 
@@ -136,7 +175,8 @@ A green-tinted paper ground carrying three semantic accents — each hue is a co
 - **Deep Canopy** (`--canopy-ink`, #0A4F34): text sitting on Canopy Wash. Dark: #8FD8B4.
 
 ### Secondary
-- **Hawker Amber** (`--amber`, #B86E14): everything food — makan eyebrows, food-stop accent bars, cleaning-closure notices, alert borders. Dark: #E0A04A.
+- **Hawker Amber** (`--amber`, #B86E14): everything food as a *surface* — food-stop accent bars, alert borders. Dark: #E0A04A.
+- **Amber Ink** (`--amber-ink`, #955710): amber as *text or a filled badge* — makan eyebrows, cleaning-closure notes, warn pills, food badges. Brand amber is only 3.4–4.0:1 on the light grounds, so small amber text uses this darker step (≥4.9:1 on Paper, Card White and Amber Wash). Dark: #E0A04A (already passes).
 - **Amber Wash** (`--amber-soft`, #F6ECDB): alert and warn-pill backgrounds. Dark: #2A2416.
 
 ### Tertiary
@@ -151,18 +191,23 @@ A green-tinted paper ground carrying three semantic accents — each hue is a co
 - **Hairline** (`--line`, #DDE4DC): every border and divider. Dark: #2A362E.
 - **Chip Fill** (`--chip`, #EAEFE8): resting fill for chips, pills, cost tags, station lozenges. Dark: #222D26.
 
+### Map pins (fixed across themes)
+Map tiles always render light, so everything drawn on the map keeps one value regardless of app theme, holding white numerals at ≥4.5:1: **MRT** (`--mrt`, #3A4A40), **food pin** (`--pin-food`/`--pin-f`, #955710), **sight pin** (`--pin-sight`/`--pin-s`, #7C4FA0), and the route line (`MAP_LINE_COLOR` in TrailMap.tsx, #0E6B45). The map legend swatches use the same values. Popup chrome is the exception: it follows the app theme (Card White / Forest Ink) because it reads as an app surface laid over the map.
+
 ### Named Rules
 **The Content-Colour Rule.** Green speaks for the app and the trail, amber only for food, plum only for sights. A hue never appears outside its lane; a new content type earns a new hue rather than borrowing one.
 
-**The Bright-Fill Rule.** Text on canopy-filled controls is white (#FFFFFF) in light theme but near-black (#0E1512) in dark theme, because Rainforest Canopy brightens to #3CB47E there. Every filled control (tab, chip, walk button, copy button) carries both overrides.
+**The Bright-Fill Rule.** Text on any themed hue fill is white (#FFFFFF) in light theme but near-black (#0E1512) in dark theme, because canopy, amber and plum all brighten there and white drops below 3:1. Every filled control or badge (tab, chip, walk button, copy button, F/S stop badges) carries both overrides. Map pins are exempt because their fills are fixed (see Map pins).
 
-**The MRT Livery Rule.** MRT line dots use the official transit colors hardcoded in `src/data.ts` (`LINE`: NS #D42E12, EW #009645, NE #9900AA, CC #FA9E0D, DT #005EC4, TE #9D5B25, LRT #748477). They are external livery, never themed, never adjusted for dark mode.
+**The MRT Livery Rule.** MRT line dots use the official transit colors hardcoded in `src/data.ts` (`LINE`: NS #D42E12, EW #009645, NE #9900AA, CC #FA9E0D, DT #005EC4, TE #9D5B25, LRT #748477). They are external livery, never themed, never adjusted for dark mode. Some fail contrast with white letters (CC 2.1:1), which is accepted because the colour is the signal and the station name sits beside it; dots stay 18px with 0.6rem 800-weight codes so the letters are as legible as the livery allows.
 
 ## Typography
 
 **Display Font:** Futura (falling back through Century Gothic, Avenir Next, Trebuchet MS to ui-sans-serif)
 **Body Font:** Seravek (falling back through Segoe UI to system-ui)
 **Label/Mono Font:** ui-monospace (SF Mono, Menlo, Consolas)
+
+**Additional steps in use:** Stat (mono 700 1.5rem, the big km number), Lede (0.95rem, the header tagline), Caption-lg (0.9rem, tips and link lists), Popup title (700 0.92rem), Small (0.8rem, popup sub-lines and stat units), Credit (0.68rem, photo credits and map notes), Dot (mono 800 0.6rem, MRT line codes only).
 
 **Character:** A geometric mid-century display voice — the register of vintage national-park signage — over a warm humanist body, with a monospace third voice reserved for anything measured. All three are system stacks: zero font requests, per-platform rendering, in keeping with the keyless architecture.
 
@@ -172,7 +217,7 @@ A green-tinted paper ground carrying three semantic accents — each hue is a co
 - **Title** (700, 1.05rem, 0.01em tracking, balanced): card headings.
 - **Body** (400, 1rem, 1.55 line-height): prose, blurbs, stop descriptions.
 - **Caption** (400, ~0.85–0.9rem, body stack): the step below Body — chip and pill text, sub-lines under titles, alert and tips copy, stat-panel prose.
-- **Label** (700, 0.72rem, 0.14em tracking, UPPERCASE): section eyebrows — hue-coded to their content lane (trail green, food amber, sight plum).
+- **Label** (700, 0.72rem, 0.14em tracking, UPPERCASE): section eyebrows — hue-coded to their content lane (trail green, food amber-ink, sight plum) — and table column headers (Moss Grey).
 - **Micro** (400, ~0.68–0.78rem, family follows content): the smallest step — photo credits, map legends and notes, station pills, and (in mono where the content is a number) cost tags and as-of stamps. Prose instances stay in the body stack; numeric instances stay mono per the Measured-Voice Rule. Eyebrows' 0.72rem sits in this same band but is documented separately as Label.
 
 ### Named Rules
@@ -210,8 +255,9 @@ Sturdy and friendly: generous padding, confident filled states, park-signage wei
 - **Shape:** softly rounded (8px)
 - **Primary** (copy/share): Rainforest Canopy fill, white text (Bright-Fill Rule in dark), 11px 20px padding, display face 700 with 0.03em tracking.
 - **Outline toggle** (mark walked): transparent with 1px Canopy border and Canopy text, 9px 18px; fills solid Canopy when pressed (`aria-pressed`).
-- **Ghost** (back, map actions): borderless Canopy text at weight 600, full-height tap padding.
-- **Hover / Focus:** cards lift 2px on hover (`transition: transform .12s ease`); every interactive element gets a 2px Canopy `outline` with 2px offset on `:focus-visible`. `prefers-reduced-motion` disables all transitions globally.
+- **Ghost** (back): borderless Canopy text at weight 600, full-height tap padding.
+- **Map-link pill** (`.maplink`, `.maplink.big` — per-stop map links and the map action row): Chip Fill, 1px Hairline border, 999px radius, min-height 32px; Canopy border on hover. The `.big` variant is 0.85rem/600 Canopy text. External actions read as lozenges so they stay findable under a thumb.
+- **Hover / Focus:** cards lift 2px on hover (`transition: transform .12s ease`); every interactive element gets a 2px Canopy `outline` with 2px offset on `:focus-visible`. `prefers-reduced-motion` disables all transitions globally, makes the "Details ↓" scroll instant, and turns off Leaflet's zoom, fade and marker animations.
 
 ### Chips
 - **Style:** Chip Fill background, 1px Hairline border, full-round (999px), 5px 12px, 0.85rem.
@@ -230,10 +276,10 @@ Sturdy and friendly: generous padding, confident filled states, park-signage wei
 - **Checkboxes:** `accent-color: var(--canopy)`.
 
 ### Navigation
-Sticky top tab bar of five equal-width text tabs in the display face (600, 0.84rem). Resting tabs are Moss Grey on transparent; the active tab fills solid Canopy (8px radius, Bright-Fill text). No icons, no underline animation — state is the fill.
+Sticky top tab bar of five equal-width text tabs in the display face (600, 0.84rem). Semantically a `nav` of buttons with `aria-current="page"` on the active one (not an ARIA tablist). Resting tabs are Moss Grey on transparent; the active tab fills solid Canopy (8px radius, Bright-Fill text). No icons, no underline animation — state is the fill.
 
 ### Map Markers (signature)
-Leaflet `divIcon` pins: 22px circles, 2px white ring, mono 700 10px numeral, hard grounding shadow. Hue follows the Content-Colour Rule — amber food, plum sights; MRT stations are dark squares (#3A4A40, 5px radius). Popups are 210px mini-cards: bold name, 16:10 photo, mono cost tag, link row — information lives in the popup, never by scrolling the page.
+Leaflet `divIcon` pins: 22px circles, 2px white ring, mono 700 10px numeral, hard grounding shadow. Hue follows the Content-Colour Rule — amber food, plum sights; MRT stations are dark squares (#3A4A40, 5px radius). Popups are 210px mini-cards: bold name, 16:10 photo with its visible Wikimedia credit line, mono cost tag, link row (each link min-height 32px for the thumb) — information lives in the popup, never by scrolling the page.
 
 ## Do's and Don'ts
 
@@ -242,7 +288,7 @@ Leaflet `divIcon` pins: 22px circles, 2px white ring, mono 700 10px numeral, har
 - **Do** set every comparable number in mono with `tabular-nums` (Measured-Voice Rule).
 - **Do** keep tap targets generous (≥32px) and legible in direct sunlight — Moss Grey is the floor for text contrast.
 - **Do** keep the 3px left accent bar as the marker for typed content (amber food, plum sights).
-- **Do** preserve required attributions: OneMap © Singapore Land Authority, Esri imagery, Leaflet, and in-app Wikimedia photo credits.
+- **Do** preserve required attributions: OneMap © Singapore Land Authority, Esri imagery, Leaflet, and in-app Wikimedia photo credits — shown as a visible line under every photo (cards, detail hero, map popups), never hover-only.
 
 ### Don't:
 - **Don't** add webfonts, icon fonts, or any font network request — system stacks only.

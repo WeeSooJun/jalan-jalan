@@ -1,6 +1,6 @@
 import { EFFORT, REGIONS, TRAIL_ALERTS, TRAILS, type Trail } from "../data";
 import { trailPhoto, TRAIL_CREDIT } from "../lib/photos";
-import { CleanNote, CostPill, MapsLinks, MrtChips } from "./bits";
+import { CleanNote, CostPill, Credit, MapsLinks, MrtChips } from "./bits";
 import { TrailMap } from "./TrailMap";
 
 function matches(t: Trail, q: string) {
@@ -50,15 +50,7 @@ function TrailDetail({
       <div className="detail">
         <h2>{t.name}</h2>
         {img && <img className="photo hero" src={img} alt={t.name} />}
-        {img && cr && (
-          <p className="credit">
-            Photo:{" "}
-            <a href={cr.page} target="_blank" rel="noopener noreferrer">
-              {cr.artist || "Wikimedia Commons"}
-            </a>{" "}
-            · {cr.license}
-          </p>
-        )}
+        {img && cr && <Credit cr={cr} />}
         <MrtChips mrt={t.mrt} />
         <div className="statline">
           <span><b>{t.km}</b> km</span>

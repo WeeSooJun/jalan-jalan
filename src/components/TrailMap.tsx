@@ -13,8 +13,8 @@ import {
 import { GEO, type LatLng, type Trail } from "../data";
 import { routePoints, trailGeometry, gmapsDirUrl, gmapsSearchUrl, appleMapsUrl } from "../lib/maps";
 import { downloadKML } from "../lib/kml";
-import { foodPhoto } from "../lib/photos";
-import { flashCard } from "./bits";
+import { foodCredit, foodPhoto, type PhotoCredit } from "../lib/photos";
+import { Credit, flashCard, reducedMotion } from "./bits";
 
 /**
  * Route line + "you are here" marker color. Map tiles (OneMap/Esri) always render light,
@@ -31,6 +31,7 @@ interface Pin {
   sub?: string;
   cost?: string;
   img?: string | null;
+  credit?: PhotoCredit;
 }
 
 function pinIcon(cls: string, label: string) {
@@ -63,6 +64,7 @@ function LocateControl({ onError }: { onError: () => void }) {
         const b = L.DomUtil.create("button", "locbtn");
         b.innerHTML = "📍";
         b.title = "Show my location";
+        b.setAttribute("aria-label", "Show my location");
         L.DomEvent.on(b, "click", (e) => {
           L.DomEvent.stop(e);
           map.locate({ setView: true, maxZoom: 16 });
@@ -110,7 +112,7 @@ export function TrailMap({ trail }: { trail: Trail }) {
   const pins: Pin[] = [];
   trail.food.forEach(([n, ty, pr, sub], i) =>
     GEO[n] && pins.push({ name: n, cls: "f", label: `F${i + 1}`, goto: `stop-f-${i}`,
-      sub: `${ty} · ${sub}`, cost: pr, img: foodPhoto(n) })
+      sub: `${ty} · ${sub}`, cost: pr, img: foodPhoto(n), credit: foodCredit(n) })
   );
   trail.sights.forEach(([n, cost, sub], i) =>
     GEO[n] && pins.push({ name: n, cls: "s", label: `S${i + 1}`, goto: `stop-s-${i}`, sub, cost })
@@ -121,10 +123,18 @@ export function TrailMap({ trail }: { trail: Trail }) {
   pins.forEach((p) => bounds.extend(GEO[p.name]));
 
   const dirUrl = gmapsDirUrl(trail);
+  const rm = reducedMotion();
 
   return (
     <div className="mapbox">
-      <MapContainer bounds={bounds.pad(0.12)} className="lmap" aria-label={`Interactive map of ${trail.name}`}>
+      <MapContainer
+        bounds={bounds.pad(0.12)}
+        className="lmap"
+        aria-label={`Interactive map of ${trail.name}`}
+        zoomAnimation={!rm}
+        fadeAnimation={!rm}
+        markerZoomAnimation={!rm}
+      >
         <AttributionPrefix />
         <LayersControl>
           <LayersControl.BaseLayer checked name="Street (OneMap)">
@@ -151,6 +161,7 @@ export function TrailMap({ trail }: { trail: Trail }) {
                 <b>{p.name}</b>
                 {p.cost && <span className="popcost">{p.cost}</span>}
                 {p.img && <img src={p.img} alt={p.name} loading="lazy" />}
+                {p.img && p.credit && <Credit cr={p.credit} />}
                 {p.sub && <p className="popsub">{p.sub}</p>}
                 <p className="poplinks">
                   <a href={gmapsSearchUrl(p.name)} target="_blank" rel="noopener noreferrer">
@@ -180,8 +191,8 @@ export function TrailMap({ trail }: { trail: Trail }) {
       </MapContainer>
       <div className="maplegend">
         <span><span className="lg" style={{ background: MAP_LINE_COLOR }} />route</span>
-        <span><span className="lg" style={{ background: "var(--amber)" }} />makan</span>
-        <span><span className="lg" style={{ background: "var(--plum)" }} />worth a stop</span>
+        <span><span className="lg" style={{ background: "var(--pin-f)" }} />makan</span>
+        <span><span className="lg" style={{ background: "var(--pin-s)" }} />worth a stop</span>
         <span><span className="lg" style={{ background: "var(--mrt)", borderRadius: 2 }} />MRT</span>
       </div>
       <div className="mapactions">
