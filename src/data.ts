@@ -80,13 +80,12 @@ export const ROUTES: Record<string, (string | LatLng)[]> = {
 // Baked fallback — overridden live from data.gov.sg at runtime (see lib/clean.ts).
 // CLEAN_ASOF + CLEAN_BAKED are rewritten weekly by scripts/refresh_clean.py (GitHub Action);
 // keep both declarations' shape intact or the script will refuse to run.
-export const CLEAN_ASOF = "3 Oct 2026";
+export const CLEAN_ASOF = "15 Oct 2026";
 export const CLEAN_BAKED: Record<string, string> = {
   "Adam Road Food Centre":"7–8 Dec",
   "Bedok 85 Fengshan":"28–29 Dec",
   "Boon Lay Place Food Village":"30 Nov–3 Dec",
   "Changi Village Hawker Centre":"Q4 TBC · repairs and redecoration from 1 Oct",
-  "East Coast Lagoon Food Village":"12–14 Oct",
   "ABC Brickworks Market":"14–15 Dec",
   "Old Airport Road Food Centre":"7–10 Dec",
   "Pasir Panjang Food Centre":"23 Nov",
